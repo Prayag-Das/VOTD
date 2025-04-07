@@ -1,22 +1,50 @@
 using UnityEngine;
+using System.Collections;
 
 public class StarDestroyerMover : MonoBehaviour
 {
-    public float speed = 12f;       // Speed of movement
-    public float resetZ = 260f;     // Z position to reset to
-    public float thresholdZ = -170f; // Z position to reset at
+    public float normalSpeed = 20f;
+    public float fastSpeed = 3000f;
+
+    private float currentSpeed;
+    private bool isBoosting = false;
+    private bool hasTeleported = false;
+
+    void Start()
+    {
+        currentSpeed = normalSpeed;
+    }
 
     void Update()
     {
-        // Move toward negative Z
-        transform.position += new Vector3(0f, 0f, -speed * Time.deltaTime);
+        // Move along the Z axis
+        transform.position += new Vector3(0f, 0f, -currentSpeed * Time.deltaTime);
 
-        // Teleport back if passed the threshold
-        if (transform.position.z <= thresholdZ)
+        // Trigger boost once when crossing -2
+        if (!isBoosting && transform.position.z <= -2f && !hasTeleported)
         {
-            Vector3 pos = transform.position;
-            pos.z = resetZ;
-            transform.position = pos;
+            StartCoroutine(BoostAndTeleport());
         }
+
+        // After teleport, slow down when reaching z = 260
+        if (hasTeleported && transform.position.z <= 260f)
+        {
+            currentSpeed = normalSpeed;
+
+            // Reset flags for the next loop
+            isBoosting = false;
+            hasTeleported = false;
+        }
+    }
+
+    IEnumerator BoostAndTeleport()
+    {
+        isBoosting = true;
+        currentSpeed = fastSpeed;
+
+        yield return new WaitForSeconds(2f);
+
+        transform.position = new Vector3(transform.position.x, transform.position.y, 2000f);
+        hasTeleported = true;
     }
 }
