@@ -5660,6 +5660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 2226028471052690548, guid: d4046dedb4f5b6242aaa815885f5035d, type: 3}
+  tubePrefab: {fileID: 2935145792476387120, guid: dce29214be88ed947b1010e7e93a3cbd, type: 3}
   maxRooms: 18
   roomOffset: 14.7
 --- !u!1 &1329230077

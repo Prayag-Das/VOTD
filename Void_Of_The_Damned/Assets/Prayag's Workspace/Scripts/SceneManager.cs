@@ -4,7 +4,7 @@ public class SceneManager : MonoBehaviour
 {
     public static SceneManager Instance;
 
-    public const int gridSize = 25;
+    public const int gridSize = 19;
     private bool[,] grid = new bool[gridSize, gridSize];
 
     void Awake()
