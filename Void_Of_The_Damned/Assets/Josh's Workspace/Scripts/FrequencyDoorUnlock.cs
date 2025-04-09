@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 public class DoorUnlock : MonoBehaviour
@@ -11,6 +12,11 @@ public class DoorUnlock : MonoBehaviour
     private bool playerNearby = false;
     private bool unlocked = false;
 
+    [Header("UI Elements")]
+    public TMP_Text unlockFrequencyText;
+
+    public TMP_Text statusLockText;
+
     [Header("Player Tuner Reference")]
     // Reference to the player's SignalTuner component.
     public SignalTuner playerTuner;
@@ -18,6 +24,22 @@ public class DoorUnlock : MonoBehaviour
     [Header("Audio")]
     public AudioSource doorSfxSource;
     public AudioClip unlockClip;
+
+    private void Start()
+    {
+        // Update the unlock frequency text.
+        if (unlockFrequencyText != null)
+        {
+            unlockFrequencyText.text = $"Unlock Frequency: {unlockFrequency:F2}";
+        }
+
+        // Initially set door status as locked.
+        if (statusLockText != null)
+        {
+            statusLockText.text = "LOCKED";
+            statusLockText.color = Color.red;
+        }
+    }
 
     private void Update()
     {
@@ -30,6 +52,12 @@ public class DoorUnlock : MonoBehaviour
             // Tell tuner: not matching = stop good signal
             if (playerTuner != null)
                 playerTuner.SetGoodSignalActive(false);
+
+            // Update status text.
+            if (statusLockText != null)
+            {
+                statusLockText.text = unlocked ? "UNLOCKED" : "LOCKED";
+            }
 
             return;
         }
@@ -55,6 +83,12 @@ public class DoorUnlock : MonoBehaviour
 
             // Frequency does not match; reset the timer.
             holdTimer = 0f;
+        }
+
+        // Continuously update the status text.
+        if (statusLockText != null)
+        {
+            statusLockText.text = unlocked ? "UNLOCKED" : "LOCKED";
         }
     }
 
@@ -85,6 +119,12 @@ public class DoorUnlock : MonoBehaviour
         if (doorSfxSource != null && unlockClip != null)
         {
             doorSfxSource.PlayOneShot(unlockClip);
+        }
+
+        if (statusLockText != null)
+        {
+            statusLockText.text = "UNLOCKED";
+            statusLockText.color = Color.green;
         }
 
         // Additional Stuff : Animation, Disable Collider, etc.
