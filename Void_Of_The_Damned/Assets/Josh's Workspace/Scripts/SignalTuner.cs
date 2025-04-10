@@ -6,8 +6,12 @@ public class SignalTuner : MonoBehaviour
     [Header("Frequency Settings")]
     public float currentFrequency = 0f;
     public float frequencyStep = 10f;
+    public float frequencyAcceleration = 20f;
+    public float maxFrequencyStep = 50f;
     public float minFrequency = 0f;
     public float maxFrequency = 200f;
+    private float incrHoldTimer = 0f;
+    private float decrHoldTimer = 0f;
 
     [Header("Interaction Settings")]
     public bool isInteracting = false;
@@ -24,42 +28,71 @@ public class SignalTuner : MonoBehaviour
     public float focusSmoothSpeed = 5f;
 
     [Header("Rotation Settings")]
-    // Set the Y rotation for idle and focused states.
     public float idleYRotation = -21f;
     public float focusYRotation = 3f;
     public float rotationSmoothSpeed = 5f;
-    public bool useSmoothRotation = true; // if false, the rotation change will be instantaneous when toggling focus
+    public bool useSmoothRotation = true;
 
     [Header("Audio Settings")]
-    public AudioSource tuningSource; // default tuning noise
-    public AudioSource goodSignalSource; // door unlocking signal
-    public AudioSource sfxSource; // click adjust noise
-
+    public AudioSource tuningSource;       // default tuning noise
+    public AudioSource sfxSource;          // click adjust noise
+    public AudioSource glitchSource;
+    public AudioSource pureSource;
+    public AudioSource beepSource;
+    public float crossfadeRange = 20f;
     public AudioClip tuningClip;
-    public AudioClip goodSignalClip;
     public AudioClip clickClip;
-
-    // Tuning volumes – lower when idle, higher when interacting.
+    public AudioClip glitchClip;
+    public AudioClip pureClip;
+    public AudioClip beepClip;
     public float lowVolume = 0.2f;
     public float highVolume = 0.6f;
+    public float doorBaselineVolume = 0.2f;   // the fixed volume for the door's low tone
+    public float fullUnlockToneVolume = 1.0f;   // the maximum volume for the unlock tone overlay
+    public float beepRange = 10f;             // Range (in frequency units) for the beep to become active.
+    public float fullBeepVolume = 0.8f;         // Maximum volume for the beep tone.
 
-    // Override the tuning audio when door frequency match
+    // New fields for crossfading
     private bool overrideGoodSignal = false;
+    // New public field to store the door's unlock frequency.
+    public float targetUnlockFrequency = -1f;
 
-    public void SetGoodSignalActive(bool active)
+    private bool lastOverrideState = false;
+    private float lastTargetFrequency = -1f;
+
+    // Updated SetGoodSignalActive method
+    public void SetGoodSignalActive(bool active, float doorFrequency = -1f)
     {
-        overrideGoodSignal = active;
+        // Only log/act if there's an actual change:
+        if (overrideGoodSignal != active || (active && doorFrequency != targetUnlockFrequency))
+        {
+            overrideGoodSignal = active;
+            if (active)
+            {
+                targetUnlockFrequency = doorFrequency;
+                Debug.Log("Setting target unlock frequency to " + doorFrequency);
+            }
+            else
+            {
+                targetUnlockFrequency = -1f;
+                Debug.Log("Clearing target unlock frequency");
+            }
+
+            // Store the new values so we know the last state.
+            lastOverrideState = overrideGoodSignal;
+            lastTargetFrequency = targetUnlockFrequency;
+        }
     }
 
     private void Start()
     {
-        // Set initial transform position and rotation
         transform.localPosition = idlePosition;
         if (!useSmoothRotation)
         {
             transform.localRotation = Quaternion.Euler(transform.localRotation.eulerAngles.x, idleYRotation, transform.localRotation.eulerAngles.z);
         }
 
+        // Regular tuning sound.
         if (tuningSource != null)
         {
             tuningSource.clip = tuningClip;
@@ -68,18 +101,40 @@ public class SignalTuner : MonoBehaviour
             tuningSource.Play();
         }
 
-        if (goodSignalSource != null)
+        // Initialize glitchSource.
+        if (glitchSource != null)
         {
-            goodSignalSource.clip = goodSignalClip;
-            goodSignalSource.loop = true;
-            goodSignalSource.volume = 0f;
-            // We do not call Play() now; it will be triggered if needed.
+            glitchSource.clip = glitchClip;
+            glitchSource.loop = true;
+            glitchSource.volume = 0f;  // Start muted.
+            glitchSource.Play();
+        }
+
+        // Initialize pureSource.
+        if (pureSource != null)
+        {
+            pureSource.clip = pureClip;
+            pureSource.loop = true;
+            pureSource.volume = 0f;
+            // Option: Play it now so volume adjustments work smoothly.
+            pureSource.Play();
+        }
+
+        // Initialize beepSource.
+        if (beepSource != null)
+        {
+            beepSource.clip = beepClip;
+            beepSource.loop = true;
+            beepSource.volume = 0f;
+            // Option: Start it now.
+            beepSource.Play();
         }
     }
 
+
     private void Update()
     {
-        // 1) Toggle interaction state on F.
+        // Toggle interaction state on F.
         if (Input.GetKeyDown(interactionKey))
         {
             isInteracting = !isInteracting;
@@ -96,39 +151,56 @@ public class SignalTuner : MonoBehaviour
             }
         }
 
-        // 2) If interacting, allow frequency changes and play click sound when E or Q is pressed.
+        // Frequency adjustment (continuous input with acceleration)
         if (isInteracting)
         {
-            if (Input.GetKeyDown(increaseKey))
+            if (Input.GetKey(increaseKey))
             {
-                currentFrequency += frequencyStep;
+                incrHoldTimer += Time.deltaTime;
+                float currentStep = frequencyStep + frequencyAcceleration * incrHoldTimer;
+                currentStep = Mathf.Clamp(currentStep, frequencyStep, maxFrequencyStep);
+                currentFrequency += currentStep * Time.deltaTime;
                 if (currentFrequency > maxFrequency) currentFrequency = minFrequency;
-                if (sfxSource != null && clickClip != null)
+                if (Input.GetKeyDown(increaseKey) && sfxSource != null && clickClip != null)
+                {
                     sfxSource.PlayOneShot(clickClip);
-
+                }
             }
+            else { incrHoldTimer = 0f; }
 
-            if (Input.GetKeyDown(decreaseKey))
+            if (Input.GetKey(decreaseKey))
             {
-                currentFrequency -= frequencyStep;
+                decrHoldTimer += Time.deltaTime;
+                float currentStep = frequencyStep + frequencyAcceleration * decrHoldTimer;
+                currentStep = Mathf.Clamp(currentStep, frequencyStep, maxFrequencyStep);
+                currentFrequency -= currentStep * Time.deltaTime;
                 if (currentFrequency < minFrequency) currentFrequency = maxFrequency;
-                if (sfxSource != null && clickClip != null)
+                if (Input.GetKeyDown(decreaseKey) && sfxSource != null && clickClip != null)
+                {
                     sfxSource.PlayOneShot(clickClip);
-
+                }
             }
+            else { decrHoldTimer = 0f; }
         }
 
-        // 3) Update the UI text.
+        // Snap frequency if close enough.
+        if (!Input.GetKey(increaseKey) && !Input.GetKey(decreaseKey))
+        {
+            float snapThreshold = 0.1f;
+            float rounded = Mathf.Round(currentFrequency);
+            if (Mathf.Abs(currentFrequency - rounded) < snapThreshold)
+                currentFrequency = rounded;
+        }
+
+        // Update UI text.
         if (frequencyText != null)
         {
             frequencyText.text = "kHz: " + currentFrequency.ToString("F2");
         }
 
-        // 4) Smoothly move the tuner between its idle and focused positions.
+        // Lerp position and rotation.
         Vector3 targetPos = isInteracting ? focusPosition : idlePosition;
         transform.localPosition = Vector3.Lerp(transform.localPosition, targetPos, Time.deltaTime * focusSmoothSpeed);
-
-        // 5) Smoothly rotate (if enabled) between idle and focused Y rotation.
         if (useSmoothRotation)
         {
             float targetY = isInteracting ? focusYRotation : idleYRotation;
@@ -137,22 +209,42 @@ public class SignalTuner : MonoBehaviour
         }
 
         // 6) Audio adjustments.
-        if (overrideGoodSignal)
+        if (overrideGoodSignal && targetUnlockFrequency >= 0)
         {
-            // If override is active, ensure the good signal source is playing.
-            if (goodSignalSource != null && !goodSignalSource.isPlaying)
-                goodSignalSource.Play();
-            if (goodSignalSource != null)
-                goodSignalSource.volume = 1.0f;
+            // Mute the normal tuning audio.
             if (tuningSource != null)
                 tuningSource.volume = 0f;
+
+            // Compute how far we are from the target frequency.
+            float diff = Mathf.Abs(currentFrequency - targetUnlockFrequency);
+            // Compute matchFactor: when diff == 0, matchFactor will be 1; if diff >= crossfadeRange, matchFactor will be 0.
+            float matchFactor = Mathf.Clamp01(1f - (diff / crossfadeRange));
+
+            // Set the glitchSource volume to fade out as we get closer.
+            if (glitchSource != null)
+                glitchSource.volume = doorBaselineVolume * (1f - matchFactor);
+            // Set the pureSource volume to fade in as we get closer.
+            if (pureSource != null)
+                pureSource.volume = matchFactor * fullUnlockToneVolume;
+
+            // Additionally, compute the beep factor based on a much tighter range.
+            float beepFactor = 0f;
+            if (diff < beepRange)
+            {
+                beepFactor = Mathf.Clamp01(1f - (diff / beepRange));
+            }
+            if (beepSource != null)
+                beepSource.volume = beepFactor * fullBeepVolume;
         }
         else
         {
-            // If the good signal override is not active, stop the good signal sound (if playing)
-            if (goodSignalSource != null && goodSignalSource.isPlaying)
-                goodSignalSource.Stop();
-            // Adjust the tuning source's volume based on whether we are interacting.
+            // When not in door mode, stop door-specific sounds and revert to normal tuning.
+            if (glitchSource != null)
+                glitchSource.volume = 0f;
+            if (pureSource != null)
+                pureSource.volume = 0f;
+            if (beepSource != null)
+                beepSource.volume = 0f;
             if (tuningSource != null)
                 tuningSource.volume = isInteracting ? highVolume : lowVolume;
         }

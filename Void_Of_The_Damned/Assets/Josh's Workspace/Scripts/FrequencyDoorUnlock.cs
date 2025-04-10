@@ -43,32 +43,29 @@ public class DoorUnlock : MonoBehaviour
 
     private void Update()
     {
-        // Only proceed if the door is still locked and the player is nearby.
+        // If the door is unlocked or the player is not nearby...
         if (unlocked || !playerNearby)
         {
-            // Reset timer if the player moves away.
             holdTimer = 0f;
-
-            // Tell tuner: not matching = stop good signal
+            // Ensure door mode is off.
             if (playerTuner != null)
-                playerTuner.SetGoodSignalActive(false);
-
-            // Update status text.
+                playerTuner.SetGoodSignalActive(false, -1);
             if (statusLockText != null)
             {
                 statusLockText.text = unlocked ? "UNLOCKED" : "LOCKED";
             }
-
             return;
         }
 
-        // Check if the tuner's frequency is close enough to the door's unlock frequency.
+        // At this point, the player is nearby. Ensure door mode is active.
+        if (playerTuner != null)
+        {
+            playerTuner.SetGoodSignalActive(true, unlockFrequency);
+        }
+
+        // Now check if the current frequency is within tolerance for unlocking.
         if (Mathf.Abs(playerTuner.currentFrequency - unlockFrequency) <= tolerance)
         {
-            // Tell tuner: frequency matches play good signal
-            if (playerTuner != null)
-                playerTuner.SetGoodSignalActive(true);
-
             holdTimer += Time.deltaTime;
             if (holdTimer >= requiredHoldTime)
             {
@@ -77,26 +74,26 @@ public class DoorUnlock : MonoBehaviour
         }
         else
         {
-            // Tell tuner: frequency does NOT match stop good signal
-            if (playerTuner != null)
-                playerTuner.SetGoodSignalActive(false);
-
-            // Frequency does not match; reset the timer.
+            // If the frequency isn't matching, simply reset the timer.
+            // DON'T clear the door mode here because the player is still near the door.
             holdTimer = 0f;
         }
 
-        // Continuously update the status text.
+        // Update status text continuously.
         if (statusLockText != null)
         {
             statusLockText.text = unlocked ? "UNLOCKED" : "LOCKED";
         }
     }
 
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             playerNearby = true;
+            if (playerTuner != null)
+                playerTuner.SetGoodSignalActive(true, unlockFrequency);
         }
     }
 
@@ -106,6 +103,8 @@ public class DoorUnlock : MonoBehaviour
         {
             playerNearby = false;
             holdTimer = 0f;
+            if (playerTuner != null)
+                playerTuner.SetGoodSignalActive(false, -1f);
         }
     }
 
