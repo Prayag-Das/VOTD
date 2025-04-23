@@ -46,7 +46,7 @@ public class SanitySystem : MonoBehaviour
         if (currentSanity > insanityThreshold)
         {
             currentSanity -= sanityDecayRate * Time.deltaTime;
-            Debug.Log($"Sanity: {currentSanity}");
+            //Debug.Log($"Sanity: {currentSanity}");
 
             if (currentSanity <= insanityThreshold && !isFading)
             {

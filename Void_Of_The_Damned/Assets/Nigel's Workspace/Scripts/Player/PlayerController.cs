@@ -22,6 +22,9 @@ public class PlayerController : MonoBehaviour
     // Checks if player is grounded.
     private bool isGrounded;
 
+    // Checks if player is able to move.
+    private bool canMove = true;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -30,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!canMove) return;
+
         HandleMovement();
         HandleJump();
     }
@@ -48,6 +53,11 @@ public class PlayerController : MonoBehaviour
         // Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
     }
 
     // JUMP MECHANIC
