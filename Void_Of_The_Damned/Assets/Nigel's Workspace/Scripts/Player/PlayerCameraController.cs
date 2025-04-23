@@ -8,6 +8,9 @@ public class PlayerCameraController : MonoBehaviour
     [SerializeField] private float mouseSensitivity = 2f;
     private float xRotation = 0f;
 
+    // Checks if player can look around.
+    private bool canLook = true;
+
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
@@ -17,6 +20,8 @@ public class PlayerCameraController : MonoBehaviour
 
     private void Update()
     {
+        if (!canLook) return;
+
         HandleCamera();
     }
 
@@ -33,5 +38,10 @@ public class PlayerCameraController : MonoBehaviour
 
         // Horizontal rotation (yaw) — rotates the **Player Body**
         playerBody.Rotate(Vector3.up * mouseX);
+    }
+
+    public void SetCameraLookEnabled(bool enabled)
+    {
+        canLook = enabled;
     }
 }
