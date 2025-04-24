@@ -687,6 +687,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9103742
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.27022037
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.19972879
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.24147096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -696.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -32.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 2005719014225013009, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -756.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2302732073455851848, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
       propertyPath: m_Name
       value: Black Hole
@@ -697,7 +725,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9094447614375559885, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.7
+      value: 11.78
       objectReference: {fileID: 0}
     - target: {fileID: 9094447614375559885, guid: e76f198c2dc9aa94a8740b556f264461, type: 3}
       propertyPath: m_LocalPosition.z
