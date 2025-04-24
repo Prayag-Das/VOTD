@@ -62,6 +62,16 @@ public class SanitySystem : MonoBehaviour
         Debug.Log($"Sanity Restored! Current Sanity: {currentSanity}");
     }
 
+    // Instantly Trigger Insanity when player touches invisible barrier.
+    public void TriggerInstantInsanity()
+    {
+        if (!isFading)
+        {
+            StartCoroutine(TriggerInsanity());
+        }
+    }
+
+
     // Trigger insanity logic (for now, just a debug message)
     private IEnumerator TriggerInsanity()
     {
