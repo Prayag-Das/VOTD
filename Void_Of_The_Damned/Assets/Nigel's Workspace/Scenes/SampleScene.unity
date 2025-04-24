@@ -13481,6 +13481,14 @@ PrefabInstance:
       propertyPath: inventorySystem
       value: 
       objectReference: {fileID: 1898220462}
+    - target: {fileID: 2755637163079300192, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5822052217497903193, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6089942922866926309, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -13559,6 +13567,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6089942922866926309, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290224235219124544, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8865906824869880424, guid: 1d9180b891e25464cb3f1444b35ce4f6, type: 3}
