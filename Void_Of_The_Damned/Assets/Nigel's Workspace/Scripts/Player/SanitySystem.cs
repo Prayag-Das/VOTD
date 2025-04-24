@@ -46,7 +46,7 @@ public class SanitySystem : MonoBehaviour
         if (currentSanity > insanityThreshold)
         {
             currentSanity -= sanityDecayRate * Time.deltaTime;
-            Debug.Log($"Sanity: {currentSanity}");
+            //Debug.Log($"Sanity: {currentSanity}");
 
             if (currentSanity <= insanityThreshold && !isFading)
             {
@@ -61,6 +61,16 @@ public class SanitySystem : MonoBehaviour
         currentSanity = Mathf.Min(currentSanity + cleanseAmount, maxSanity);
         Debug.Log($"Sanity Restored! Current Sanity: {currentSanity}");
     }
+
+    // Instantly Trigger Insanity when player touches invisible barrier.
+    public void TriggerInstantInsanity()
+    {
+        if (!isFading)
+        {
+            StartCoroutine(TriggerInsanity());
+        }
+    }
+
 
     // Trigger insanity logic (for now, just a debug message)
     private IEnumerator TriggerInsanity()
