@@ -16,11 +16,13 @@ public class RoomController2 : MonoBehaviour
     [Header("Generation Settings")]
     public int maxRooms = 18;
     public float roomOffset = 20.0f;
+    public float spawnDelay = 0.02f; // ✅ NEW: adjustable spawn delay (default 0.02s)
 
     private List<GameObject> spawnedRooms = new List<GameObject>();
     private List<GameObject> spawnedTubes = new List<GameObject>();
     private List<GameObject> spawnedBlockers = new List<GameObject>();
     private List<Vector2Int> filledCoordinates = new List<Vector2Int>();
+    private Dictionary<Vector2Int, bool[]> wallHandled = new Dictionary<Vector2Int, bool[]>();
     private HashSet<(Vector2Int, Vector2Int)> connectedRooms = new HashSet<(Vector2Int, Vector2Int)>();
     private Vector3 originPosition;
 
@@ -44,12 +46,14 @@ public class RoomController2 : MonoBehaviour
         Vector2Int startCoord = new Vector2Int(0, 0);
         SceneManager.Instance.ResetGrid();
         filledCoordinates.Clear();
+        wallHandled.Clear();
         connectedRooms.Clear();
 
         SceneManager.Instance.SetCellOccupied(0, 0, true);
         filledCoordinates.Add(startCoord);
+        wallHandled[startCoord] = new bool[4];
 
-        spawnedRooms.Add(this.gameObject); // Root room
+        spawnedRooms.Add(this.gameObject);
 
         StartCoroutine(GenerateRooms());
     }
@@ -76,6 +80,7 @@ public class RoomController2 : MonoBehaviour
         spawnedTubes.Clear();
         spawnedBlockers.Clear();
         filledCoordinates.Clear();
+        wallHandled.Clear();
         connectedRooms.Clear();
 
         SceneManager.Instance.ResetGrid();
@@ -107,6 +112,7 @@ public class RoomController2 : MonoBehaviour
 
             SceneManager.Instance.SetCellOccupied(newCoord.x, newCoord.y, true);
             filledCoordinates.Add(newCoord);
+            wallHandled[newCoord] = new bool[4];
 
             // Spawn tube
             Vector2Int direction = newCoord - baseCoord;
@@ -140,12 +146,11 @@ public class RoomController2 : MonoBehaviour
                 GameObject tube = Instantiate(randomTubePrefab, tubePos, tubeRot);
                 spawnedTubes.Add(tube);
 
-                // RECORD connection
                 connectedRooms.Add((baseCoord, newCoord));
                 connectedRooms.Add((newCoord, baseCoord));
             }
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(spawnDelay); // ✅ NEW: use spawnDelay variable
         }
 
         yield return StartCoroutine(SpawnBlockers());
@@ -162,66 +167,86 @@ public class RoomController2 : MonoBehaviour
             Vector2Int left = coord + Vector2Int.left;
             Vector2Int right = coord + Vector2Int.right;
 
-            // Up
-            if (!filledCoordinates.Contains(up))
+            // UP (+Y)
+            if (!wallHandled[coord][2])
             {
-                yield return SpawnBlocker(basePos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
-            }
-            else if (!connectedRooms.Contains((coord, up)))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
-                Vector3 neighborPos = originPosition + new Vector3(up.x * roomOffset, 0, up.y * roomOffset);
-                yield return SpawnBlocker(neighborPos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
-            }
-
-            // Down
-            if (!filledCoordinates.Contains(down))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
-            }
-            else if (!connectedRooms.Contains((coord, down)))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
-                Vector3 neighborPos = originPosition + new Vector3(down.x * roomOffset, 0, down.y * roomOffset);
-                yield return SpawnBlocker(neighborPos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
+                if (!filledCoordinates.Contains(up))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
+                }
+                else if (!connectedRooms.Contains((coord, up)))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
+                    Vector3 neighborPos = originPosition + new Vector3(up.x * roomOffset, 0, up.y * roomOffset);
+                    yield return SpawnBlocker(neighborPos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
+                }
+                wallHandled[coord][2] = true;
+                if (wallHandled.ContainsKey(up)) wallHandled[up][3] = true;
             }
 
-            // Left
-            if (!filledCoordinates.Contains(left))
+            // DOWN (-Y)
+            if (!wallHandled[coord][3])
             {
-                yield return SpawnBlocker(basePos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
-            }
-            else if (!connectedRooms.Contains((coord, left)))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
-                Vector3 neighborPos = originPosition + new Vector3(left.x * roomOffset, 0, left.y * roomOffset);
-                yield return SpawnBlocker(neighborPos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
-            }
-
-            // Right
-            if (!filledCoordinates.Contains(right))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
-            }
-            else if (!connectedRooms.Contains((coord, right)))
-            {
-                yield return SpawnBlocker(basePos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
-                Vector3 neighborPos = originPosition + new Vector3(right.x * roomOffset, 0, right.y * roomOffset);
-                yield return SpawnBlocker(neighborPos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
+                if (!filledCoordinates.Contains(down))
+                {
+                    if (!(coord.x == 0 && coord.y == 0))
+                    {
+                        yield return SpawnBlocker(basePos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
+                    }
+                }
+                else if (!connectedRooms.Contains((coord, down)))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(0, 0, -3.75f), Quaternion.Euler(0, -90, 0));
+                    Vector3 neighborPos = originPosition + new Vector3(down.x * roomOffset, 0, down.y * roomOffset);
+                    yield return SpawnBlocker(neighborPos + new Vector3(0, 0, 3.75f), Quaternion.Euler(0, 90, 0));
+                }
+                wallHandled[coord][3] = true;
+                if (wallHandled.ContainsKey(down)) wallHandled[down][2] = true;
             }
 
-            yield return new WaitForSeconds(0.1f);
+            // LEFT (-X)
+            if (!wallHandled[coord][1])
+            {
+                if (!filledCoordinates.Contains(left))
+                {
+                    if (!(coord.x == 0 && coord.y == 0))
+                    {
+                        yield return SpawnBlocker(basePos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
+                    }
+                }
+                else if (!connectedRooms.Contains((coord, left)))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
+                    Vector3 neighborPos = originPosition + new Vector3(left.x * roomOffset, 0, left.y * roomOffset);
+                    yield return SpawnBlocker(neighborPos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
+                }
+                wallHandled[coord][1] = true;
+                if (wallHandled.ContainsKey(left)) wallHandled[left][0] = true;
+            }
+
+            // RIGHT (+X)
+            if (!wallHandled[coord][0])
+            {
+                if (!filledCoordinates.Contains(right))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
+                }
+                else if (!connectedRooms.Contains((coord, right)))
+                {
+                    yield return SpawnBlocker(basePos + new Vector3(3.75f, 0, 0), Quaternion.Euler(0, 180, 0));
+                    Vector3 neighborPos = originPosition + new Vector3(right.x * roomOffset, 0, right.y * roomOffset);
+                    yield return SpawnBlocker(neighborPos + new Vector3(-3.75f, 0, 0), Quaternion.Euler(0, 0, 0));
+                }
+                wallHandled[coord][0] = true;
+                if (wallHandled.ContainsKey(right)) wallHandled[right][1] = true;
+            }
+
+            yield return new WaitForSeconds(spawnDelay); // ✅ NEW: use spawnDelay variable
         }
     }
 
     IEnumerator SpawnBlocker(Vector3 pos, Quaternion rot)
     {
-        // Skip spawning blocker at (0, 0, -3.75)
-        if (Mathf.Approximately(pos.x, 0f) && Mathf.Approximately(pos.z, -3.75f))
-        {
-            yield break;
-        }
-
         if (blockerPrefabs.Length == 0) yield break;
         GameObject randomBlocker = blockerPrefabs[Random.Range(0, blockerPrefabs.Length)];
         GameObject blocker = Instantiate(randomBlocker, pos, rot);
