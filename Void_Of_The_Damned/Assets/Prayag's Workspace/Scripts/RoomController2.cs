@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class RoomController2 : MonoBehaviour
 {
-    public GameObject roomPrefab;
-    public GameObject tubePrefab;
+    [Header("Room Prefabs")]
+    public GameObject[] roomPrefabs; // Set 3 room prefabs here in Inspector
+
+    [Header("Tube Prefabs")]
+    public GameObject[] tubePrefabs; // Set 2 tube prefabs here in Inspector
+
+    [Header("Generation Settings")]
     public int maxRooms = 18;
     public float roomOffset = 20.0f;
 
@@ -83,7 +88,14 @@ public class RoomController2 : MonoBehaviour
             Vector2Int newCoord = neighbors[Random.Range(0, neighbors.Length)];
             Vector3 roomWorldPos = originPosition + new Vector3(newCoord.x * roomOffset, 0, newCoord.y * roomOffset);
 
-            GameObject newRoom = Instantiate(roomPrefab, roomWorldPos, Quaternion.identity);
+            // Randomly select room prefab
+            GameObject randomRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
+
+            // Randomly select rotation
+            Quaternion randomRotation = Quaternion.Euler(0, GetRandom90Rotation(), 0);
+
+            // Spawn the new room
+            GameObject newRoom = Instantiate(randomRoomPrefab, roomWorldPos, randomRotation);
             spawnedRooms.Add(newRoom);
 
             SceneManager.Instance.SetCellOccupied(newCoord.x, newCoord.y, true);
@@ -115,13 +127,20 @@ public class RoomController2 : MonoBehaviour
                 tubeRot = Quaternion.Euler(0, -90, 0);
             }
 
-            if (tubePrefab != null)
+            if (tubePrefabs.Length > 0)
             {
-                GameObject tube = Instantiate(tubePrefab, tubePos, tubeRot);
+                GameObject randomTubePrefab = tubePrefabs[Random.Range(0, tubePrefabs.Length)];
+                GameObject tube = Instantiate(randomTubePrefab, tubePos, tubeRot);
                 spawnedTubes.Add(tube);
             }
 
             yield return new WaitForSeconds(0.1f); // Controls room+tube spawn rate
         }
+    }
+
+    int GetRandom90Rotation()
+    {
+        int[] possibleAngles = { -180, -90, 90, 180 };
+        return possibleAngles[Random.Range(0, possibleAngles.Length)];
     }
 }
