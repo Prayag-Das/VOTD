@@ -10,6 +10,9 @@ public class TitleScript : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
     [SerializeField] private string nextSceneName = "Intro-Cutscene-Prototype";
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource selectAudioSource; // <-- Added AudioSource
+
     private bool isTransitioning = false;
 
     private void Start()
@@ -36,10 +39,17 @@ public class TitleScript : MonoBehaviour
     {
         isTransitioning = true;
 
+        // Play sound immediately when pressing Space
+        if (selectAudioSource != null)
+        {
+            selectAudioSource.Stop();
+            selectAudioSource.Play();
+        }
+
         // Fade to black
         yield return StartCoroutine(FadeScreen(0f, 1f));
 
-        // Short wait to ensure fade is complete (optional)
+        // Short wait to ensure fade is complete
         yield return new WaitForSeconds(0.1f);
 
         // Load the next scene
