@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Prayag's Workspace/Scenes/TYTAN-Logo-Screen.unity
+    guid: 61f30deb6ba4a084bb5cbddf9c773979
+  - enabled: 1
+    path: Assets/Prayag's Workspace/Scenes/Title-Screen-Prototype.unity
+    guid: 81632e3873dd55841952e84a717680d0
+  - enabled: 1
+    path: Assets/Prayag's Workspace/Scenes/Intro-Cutscene-Prototype.unity
+    guid: 8b233261225f2ad438a8615e4e873e81
+  - enabled: 1
     path: Assets/Prayag's Workspace/Scenes/Prayag-Testing-Area.unity
     guid: 99c9720ab356a0642a771bea13969a05
   m_configObjects:
