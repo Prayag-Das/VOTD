@@ -864,6 +864,7 @@ GameObject:
   - component: {fileID: 2621670773804699974}
   - component: {fileID: 1427025599920611043}
   - component: {fileID: 3758578730750503465}
+  - component: {fileID: 9052649444298485408}
   m_Layer: 0
   m_Name: Table
   m_TagString: Untagged
@@ -940,6 +941,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9052649444298485408
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3398488191908924412}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6692290496178104961, guid: 34739a9e8e1420840b377fa39b9e531f, type: 3}
 --- !u!1 &4114654873101226332
 GameObject:
   m_ObjectHideFlags: 0
@@ -5517,6 +5540,7 @@ GameObject:
   - component: {fileID: 5910269975597845327}
   - component: {fileID: 7325848818889884906}
   - component: {fileID: 4777848502970839072}
+  - component: {fileID: 3730021467021696726}
   m_Layer: 0
   m_Name: Vase
   m_TagString: Untagged
@@ -5595,6 +5619,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3730021467021696726
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6435273976550445557}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.6147361
+  m_Height: 3.4441574
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0.00000011920929, z: 0.00000029802322}
 --- !u!1 &6686240230280402394
 GameObject:
   m_ObjectHideFlags: 0
@@ -5958,6 +6005,7 @@ GameObject:
   - component: {fileID: 9167885318896598877}
   - component: {fileID: 5230091537179128056}
   - component: {fileID: 8030467629729072178}
+  - component: {fileID: 3839052979981042319}
   m_Layer: 0
   m_Name: Big Box (1)
   m_TagString: Untagged
@@ -6035,6 +6083,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3839052979981042319
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390504842860815847}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2240001, y: 1.2239999, z: 1.2240002}
+  m_Center: {x: 0, y: 0, z: -0.0000038444996}
 --- !u!1 &8669272607467377099
 GameObject:
   m_ObjectHideFlags: 0
@@ -6387,6 +6456,7 @@ GameObject:
   - component: {fileID: 5515999884535301137}
   - component: {fileID: 8646336468311532672}
   - component: {fileID: 7929481372189157477}
+  - component: {fileID: 8433269882107496787}
   m_Layer: 0
   m_Name: Cube Crate
   m_TagString: Untagged
@@ -6464,3 +6534,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &8433269882107496787
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123345986709123923}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2239999, y: 1.2239999, z: 1.224}
+  m_Center: {x: 0.0000010728836, y: 0, z: -0.000000029802322}

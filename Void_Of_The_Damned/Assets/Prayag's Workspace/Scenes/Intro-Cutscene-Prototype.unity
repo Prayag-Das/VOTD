@@ -439,7 +439,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 1592092552}
   fadeDuration: 1.5
-  moveSpeed: 1
+  moveSpeed: 0.8
   stopZ: -40
   introAudioSource: {fileID: 195049510}
 --- !u!82 &195049510

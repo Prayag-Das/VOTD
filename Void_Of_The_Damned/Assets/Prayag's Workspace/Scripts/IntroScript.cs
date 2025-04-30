@@ -10,7 +10,7 @@ public class IntroScript : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
 
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 1f; // Constant movement speed
+    [SerializeField] private float moveSpeed = 0.8f; // Constant movement speed
     [SerializeField] private float stopZ = -40f;
 
     [Header("Audio Settings")]
