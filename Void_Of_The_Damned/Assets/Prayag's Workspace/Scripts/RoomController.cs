@@ -32,10 +32,10 @@ public class RoomController : MonoBehaviour
     void Generate()
     {
         Vector2Int startCoord = new Vector2Int(0, 0);
-        SceneManager.Instance.ResetGrid();
+        MapManager.Instance.ResetGrid();
         filledCoordinates.Clear();
 
-        SceneManager.Instance.SetCellOccupied(0, 0, true);
+        MapManager.Instance.SetCellOccupied(0, 0, true);
         filledCoordinates.Add(startCoord);
 
         spawnedRooms.Add(this.gameObject); // This room is the origin
@@ -62,7 +62,7 @@ public class RoomController : MonoBehaviour
         spawnedTubes.Clear();
         filledCoordinates.Clear();
 
-        SceneManager.Instance.ResetGrid();
+        MapManager.Instance.ResetGrid();
         transform.position = originPosition;
     }
 
@@ -72,7 +72,7 @@ public class RoomController : MonoBehaviour
         {
             int startIndex = filledCoordinates.Count > 1 ? 1 : 0;
             Vector2Int baseCoord = filledCoordinates[Random.Range(startIndex, filledCoordinates.Count)];
-            Vector2Int[] neighbors = SceneManager.Instance.GetAvailableNeighbors(baseCoord);
+            Vector2Int[] neighbors = MapManager.Instance.GetAvailableNeighbors(baseCoord);
 
             if (neighbors.Length == 0)
             {
@@ -86,7 +86,7 @@ public class RoomController : MonoBehaviour
             GameObject newRoom = Instantiate(roomPrefab, roomWorldPos, Quaternion.identity);
             spawnedRooms.Add(newRoom);
 
-            SceneManager.Instance.SetCellOccupied(newCoord.x, newCoord.y, true);
+            MapManager.Instance.SetCellOccupied(newCoord.x, newCoord.y, true);
             filledCoordinates.Add(newCoord);
 
             // Spawn a tube between baseCoord and newCoord

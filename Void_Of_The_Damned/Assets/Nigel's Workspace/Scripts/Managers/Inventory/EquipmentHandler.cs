@@ -8,6 +8,7 @@ public class EquipmentHandler : MonoBehaviour
     [SerializeField] private KeyCode equipKey = KeyCode.Alpha1;  // Can change in Inspector
     [SerializeField] private GameObject signalTunerPrefab;       // Drag prefab or GameObject
     [SerializeField] private Transform equipPoint;               // Where the tool appears (e.g. player hand)
+    [SerializeField] private Collider equipCollider;             // Assign a collider in Inspector
 
     private GameObject currentEquippedItem;
     private bool isEquipped = false;
@@ -34,6 +35,9 @@ public class EquipmentHandler : MonoBehaviour
         {
             currentEquippedItem = Instantiate(signalTunerPrefab, equipPoint.position, equipPoint.rotation, equipPoint);
             isEquipped = true;
+
+            if (equipCollider != null)
+                equipCollider.enabled = true; // Turn on collider when equipped
         }
     }
 
@@ -43,6 +47,10 @@ public class EquipmentHandler : MonoBehaviour
         {
             Destroy(currentEquippedItem);
             isEquipped = false;
+
+            if (equipCollider != null)
+                equipCollider.enabled = false; // Turn off collider when unequipped
         }
     }
 }
+
