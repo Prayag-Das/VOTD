@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using TMPro;
 using System.Collections;
 
 public class IntroScript : MonoBehaviour
@@ -17,16 +16,10 @@ public class IntroScript : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioSource introAudioSource;
 
-    [Header("Text Settings")]
-    [SerializeField] private TextMeshProUGUI fadeInText;
-    [SerializeField] private float textFadeInDuration = 5f;
-
     private bool isMoving = false;
     private bool hasStopped = false;
     private bool isCutscenePlaying = false;
     private bool isSkipping = false;
-
-    private Coroutine fadeInTextCoroutine;
 
     private Vector3 initialPosition;
 
@@ -41,13 +34,6 @@ public class IntroScript : MonoBehaviour
             fadeImage.color = color;
         }
 
-        if (fadeInText != null)
-        {
-            Color color = fadeInText.color;
-            color.a = 0f;
-            fadeInText.color = color;
-        }
-
         StartCoroutine(PlayCutscene());
     }
 
@@ -58,14 +44,6 @@ public class IntroScript : MonoBehaviour
         if (!isSkipping && Input.GetKeyDown(KeyCode.Space))
         {
             isSkipping = true;
-
-            // Interrupt fade-in if it's still running
-            if (fadeInTextCoroutine != null)
-            {
-                StopCoroutine(fadeInTextCoroutine);
-                fadeInTextCoroutine = null;
-            }
-
             StartCoroutine(SkipCutscene());
         }
 
@@ -105,88 +83,19 @@ public class IntroScript : MonoBehaviour
         yield return StartCoroutine(FadeScreen(1f, 0f));
 
         isMoving = true;
-
-        if (fadeInText != null)
-        {
-            yield return new WaitForSeconds(1f);
-            fadeInTextCoroutine = StartCoroutine(FadeTextIn(fadeInText, textFadeInDuration));
-        }
-    }
-
-    private IEnumerator FadeTextIn(TextMeshProUGUI text, float duration)
-    {
-        float elapsed = 0f;
-        Color color = text.color;
-
-        while (elapsed < duration)
-        {
-            if (isSkipping) yield break;  // Exit early if skipping
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(0f, 1f, elapsed / duration);
-            color.a = alpha;
-            text.color = color;
-            yield return null;
-        }
-
-        color.a = 1f;
-        text.color = color;
-    }
-
-    private IEnumerator FadeTextOut(TextMeshProUGUI text, float duration)
-    {
-        float elapsed = 0f;
-        Color color = text.color;
-        float startAlpha = color.a;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(startAlpha, 0f, elapsed / duration);
-            color.a = alpha;
-            text.color = color;
-            yield return null;
-        }
-
-        color.a = 0f;
-        text.color = color;
     }
 
     private IEnumerator HandleStopFadeOut()
     {
         yield return new WaitForSeconds(1.5f);
-
-        Coroutine textFade = null;
-        if (fadeInText != null)
-        {
-            textFade = StartCoroutine(FadeTextOut(fadeInText, fadeDuration));
-        }
-
         yield return StartCoroutine(FadeScreen(0f, 1f));
-
-        if (textFade != null)
-        {
-            yield return textFade;
-        }
-
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene("Prayag-Testing-Area");
     }
 
     private IEnumerator SkipCutscene()
     {
-        Coroutine textFade = null;
-        if (fadeInText != null)
-        {
-            textFade = StartCoroutine(FadeTextOut(fadeInText, fadeDuration));
-        }
-
         yield return StartCoroutine(FadeScreen(fadeImage.color.a, 1f));
-
-        if (textFade != null)
-        {
-            yield return textFade;
-        }
-
         SceneManager.LoadScene("Prayag-Testing-Area");
     }
 

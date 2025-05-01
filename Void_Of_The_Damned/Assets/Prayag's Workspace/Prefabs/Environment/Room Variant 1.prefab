@@ -349,6 +349,7 @@ GameObject:
   - component: {fileID: 9081241893290946188}
   - component: {fileID: 1523365018499413340}
   - component: {fileID: 2158135225783892802}
+  - component: {fileID: 8646551689764981781}
   m_Layer: 0
   m_Name: Station Screen Clump Off
   m_TagString: Untagged
@@ -428,6 +429,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8646551689764981781
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577817904165930198}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &2063301937987969584
 GameObject:
   m_ObjectHideFlags: 0
@@ -439,6 +462,7 @@ GameObject:
   - component: {fileID: 8593103707794212970}
   - component: {fileID: 2045706536835339194}
   - component: {fileID: 1492072075680095652}
+  - component: {fileID: 4194419109397284094}
   m_Layer: 0
   m_Name: Station Screen Off (3)
   m_TagString: Untagged
@@ -515,6 +539,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4194419109397284094
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063301937987969584}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &2161204850077039382
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +572,7 @@ GameObject:
   - component: {fileID: 8510853563784499532}
   - component: {fileID: 2107606782470212252}
   - component: {fileID: 1578672025413977218}
+  - component: {fileID: 2022051919789758275}
   m_Layer: 0
   m_Name: Station Screen Off (1)
   m_TagString: Untagged
@@ -602,6 +649,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2022051919789758275
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2161204850077039382}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &3253080524337274270
 GameObject:
   m_ObjectHideFlags: 0
@@ -919,7 +988,7 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 698e5dc06be002445a1489f22a9c9ed3, type: 2}
-  - {fileID: 2100000, guid: b8e66e4f1cf2dd74199cfdf16f940eb8, type: 2}
+  - {fileID: 2100000, guid: 3911678a1a24b1245b20574e003b4c82, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1155,6 +1224,7 @@ GameObject:
   - component: {fileID: 4849882272216376143}
   - component: {fileID: 8422265315054120170}
   - component: {fileID: 5982208466498099232}
+  - component: {fileID: 8972279623649089001}
   m_Layer: 0
   m_Name: Appareil2
   m_TagString: Untagged
@@ -1237,6 +1307,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8972279623649089001
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189816480326990325}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1263527425074514733, guid: 48a6e843d10aa5d489c0c9c3c79ccc04, type: 3}
 --- !u!1 &5804938496889855970
 GameObject:
   m_ObjectHideFlags: 0
@@ -1268,7 +1360,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0009994507, y: -1.297, z: 0}
-  m_LocalScale: {x: 1, y: 0.09, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.09, z: 0.99}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1680354330972369872}
@@ -1537,7 +1629,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8e66e4f1cf2dd74199cfdf16f940eb8, type: 2}
+  - {fileID: 2100000, guid: 2201ed8fb50ad9e4ea7db4e7a3736136, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5453,6 +5545,7 @@ GameObject:
   - component: {fileID: 4472060827159297904}
   - component: {fileID: 6137538408856003744}
   - component: {fileID: 6772220106553387710}
+  - component: {fileID: 9100667769048036518}
   m_Layer: 0
   m_Name: Station Screen Off (2)
   m_TagString: Untagged
@@ -5529,6 +5622,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &9100667769048036518
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191736754384114986}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &6435273976550445557
 GameObject:
   m_ObjectHideFlags: 0

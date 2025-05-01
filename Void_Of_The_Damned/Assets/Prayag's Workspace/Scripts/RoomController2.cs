@@ -13,14 +13,18 @@ public class RoomController2 : MonoBehaviour
     [Header("Blocker Prefabs")]
     public GameObject[] blockerPrefabs;
 
+    [Header("Door Prefab")]
+    public GameObject doorPrefab;
+
     [Header("Generation Settings")]
     public int maxRooms = 18;
     public float roomOffset = 20.0f;
-    public float spawnDelay = 0.02f; // ✅ NEW: adjustable spawn delay (default 0.02s)
+    public float spawnDelay = 0.02f;
 
     private List<GameObject> spawnedRooms = new List<GameObject>();
     private List<GameObject> spawnedTubes = new List<GameObject>();
     private List<GameObject> spawnedBlockers = new List<GameObject>();
+    private List<GameObject> spawnedDoors = new List<GameObject>();
     private List<Vector2Int> filledCoordinates = new List<Vector2Int>();
     private Dictionary<Vector2Int, bool[]> wallHandled = new Dictionary<Vector2Int, bool[]>();
     private HashSet<(Vector2Int, Vector2Int)> connectedRooms = new HashSet<(Vector2Int, Vector2Int)>();
@@ -66,19 +70,14 @@ public class RoomController2 : MonoBehaviour
                 Destroy(room);
         }
 
-        foreach (GameObject tube in spawnedTubes)
-        {
-            Destroy(tube);
-        }
-
-        foreach (GameObject blocker in spawnedBlockers)
-        {
-            Destroy(blocker);
-        }
+        foreach (GameObject tube in spawnedTubes) Destroy(tube);
+        foreach (GameObject blocker in spawnedBlockers) Destroy(blocker);
+        foreach (GameObject door in spawnedDoors) Destroy(door);
 
         spawnedRooms.Clear();
         spawnedTubes.Clear();
         spawnedBlockers.Clear();
+        spawnedDoors.Clear();
         filledCoordinates.Clear();
         wallHandled.Clear();
         connectedRooms.Clear();
@@ -102,6 +101,7 @@ public class RoomController2 : MonoBehaviour
             }
 
             Vector2Int newCoord = neighbors[Random.Range(0, neighbors.Length)];
+
             Vector3 roomWorldPos = originPosition + new Vector3(newCoord.x * roomOffset, 0, newCoord.y * roomOffset);
 
             GameObject randomRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
@@ -114,27 +114,26 @@ public class RoomController2 : MonoBehaviour
             filledCoordinates.Add(newCoord);
             wallHandled[newCoord] = new bool[4];
 
-            // Spawn tube
-            Vector2Int direction = newCoord - baseCoord;
+            Vector2Int tubeDir = newCoord - baseCoord;
             Vector3 tubePos = Vector3.zero;
             Quaternion tubeRot = Quaternion.identity;
 
-            if (direction == Vector2Int.up)
+            if (tubeDir == Vector2Int.up)
             {
                 tubePos = originPosition + new Vector3(newCoord.x * roomOffset, -0.07f, newCoord.y * roomOffset - 4.5f);
                 tubeRot = Quaternion.Euler(0, 0, 0);
             }
-            else if (direction == Vector2Int.down)
+            else if (tubeDir == Vector2Int.down)
             {
                 tubePos = originPosition + new Vector3(newCoord.x * roomOffset, -0.07f, newCoord.y * roomOffset + 4.5f);
                 tubeRot = Quaternion.Euler(0, 180, 0);
             }
-            else if (direction == Vector2Int.right)
+            else if (tubeDir == Vector2Int.right)
             {
                 tubePos = originPosition + new Vector3(newCoord.x * roomOffset - 4.5f, -0.07f, newCoord.y * roomOffset);
                 tubeRot = Quaternion.Euler(0, 90, 0);
             }
-            else if (direction == Vector2Int.left)
+            else if (tubeDir == Vector2Int.left)
             {
                 tubePos = originPosition + new Vector3(newCoord.x * roomOffset + 4.5f, -0.07f, newCoord.y * roomOffset);
                 tubeRot = Quaternion.Euler(0, -90, 0);
@@ -148,9 +147,31 @@ public class RoomController2 : MonoBehaviour
 
                 connectedRooms.Add((baseCoord, newCoord));
                 connectedRooms.Add((newCoord, baseCoord));
+
+                // 1/3 chance to spawn door at baseCoord based on direction
+            if (doorPrefab != null && Random.Range(0, 3) == 0)
+            {
+                Vector2Int direction = newCoord - baseCoord;
+                Vector3 doorPos = originPosition + new Vector3(baseCoord.x * roomOffset, 0, baseCoord.y * roomOffset);
+                Quaternion doorRot = Quaternion.identity;
+
+                if (direction == Vector2Int.up)
+                    doorRot = Quaternion.Euler(0, 0, 0);
+                else if (direction == Vector2Int.down)
+                    doorRot = Quaternion.Euler(0, 180, 0);
+                else if (direction == Vector2Int.left)
+                    doorRot = Quaternion.Euler(0, 90, 0);
+                else if (direction == Vector2Int.right)
+                    doorRot = Quaternion.Euler(0, -90, 0);
+
+                GameObject door = Instantiate(doorPrefab, doorPos, doorRot);
+                spawnedDoors.Add(door);
+            }
             }
 
-            yield return new WaitForSeconds(spawnDelay); // ✅ NEW: use spawnDelay variable
+            yield return new WaitForSeconds(spawnDelay);
+
+            
         }
 
         yield return StartCoroutine(SpawnBlockers());
@@ -162,10 +183,12 @@ public class RoomController2 : MonoBehaviour
         {
             Vector3 basePos = originPosition + new Vector3(coord.x * roomOffset, 0, coord.y * roomOffset);
 
+
             Vector2Int up = coord + Vector2Int.up;
             Vector2Int down = coord + Vector2Int.down;
             Vector2Int left = coord + Vector2Int.left;
             Vector2Int right = coord + Vector2Int.right;
+
 
             // UP (+Y)
             if (!wallHandled[coord][2])
@@ -183,6 +206,7 @@ public class RoomController2 : MonoBehaviour
                 wallHandled[coord][2] = true;
                 if (wallHandled.ContainsKey(up)) wallHandled[up][3] = true;
             }
+
 
             // DOWN (-Y)
             if (!wallHandled[coord][3])
@@ -204,6 +228,7 @@ public class RoomController2 : MonoBehaviour
                 if (wallHandled.ContainsKey(down)) wallHandled[down][2] = true;
             }
 
+
             // LEFT (-X)
             if (!wallHandled[coord][1])
             {
@@ -224,6 +249,7 @@ public class RoomController2 : MonoBehaviour
                 if (wallHandled.ContainsKey(left)) wallHandled[left][0] = true;
             }
 
+
             // RIGHT (+X)
             if (!wallHandled[coord][0])
             {
@@ -241,6 +267,7 @@ public class RoomController2 : MonoBehaviour
                 if (wallHandled.ContainsKey(right)) wallHandled[right][1] = true;
             }
 
+
             yield return new WaitForSeconds(spawnDelay); // ✅ NEW: use spawnDelay variable
         }
     }
@@ -256,7 +283,7 @@ public class RoomController2 : MonoBehaviour
 
     int GetRandom90Rotation()
     {
-        int[] possibleAngles = { -180, -90, 90, 180 };
+        int[] possibleAngles = { 0, -90, 90, 180 };
         return possibleAngles[Random.Range(0, possibleAngles.Length)];
     }
 }

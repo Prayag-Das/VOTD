@@ -300,7 +300,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8e66e4f1cf2dd74199cfdf16f940eb8, type: 2}
+  - {fileID: 2100000, guid: bb660c929feba554494ddcc4b01dcbdc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -580,6 +580,8 @@ Transform:
   - {fileID: 2763830295009554531}
   - {fileID: 3500287181011661455}
   - {fileID: 5349266825147911504}
+  - {fileID: 5123311828805750772}
+  - {fileID: 7130788410354822429}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6060937342808522749
@@ -1779,6 +1781,7 @@ GameObject:
   - component: {fileID: 4363483009744920802}
   - component: {fileID: 8825517512783761976}
   - component: {fileID: 6454053295655897063}
+  - component: {fileID: 2734352014375517288}
   m_Layer: 0
   m_Name: Station Screen Off (1)
   m_TagString: Untagged
@@ -1855,6 +1858,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2734352014375517288
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2845361722030079867}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &2960287085992460289
 GameObject:
   m_ObjectHideFlags: 0
@@ -2135,6 +2160,7 @@ GameObject:
   - component: {fileID: 5885767136378366635}
   - component: {fileID: 28248417587136903}
   - component: {fileID: 2099788158017553993}
+  - component: {fileID: 4994092754897265064}
   m_Layer: 0
   m_Name: Station Screen Off (2)
   m_TagString: Untagged
@@ -2211,6 +2237,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &4994092754897265064
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395053851623528052}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &3924891274697937079
 GameObject:
   m_ObjectHideFlags: 0
@@ -2486,6 +2534,7 @@ GameObject:
   - component: {fileID: 2212268302745910313}
   - component: {fileID: 8150795756773276287}
   - component: {fileID: 6194805993347958360}
+  - component: {fileID: 7384520578869547270}
   m_Layer: 0
   m_Name: Station Screen Clump Off
   m_TagString: Untagged
@@ -2565,6 +2614,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7384520578869547270
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7690127153600048455}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &8308725853581510874
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,6 +2828,7 @@ GameObject:
   - component: {fileID: 4444312189957722257}
   - component: {fileID: 6539942043865733652}
   - component: {fileID: 6866673564971059865}
+  - component: {fileID: 2319620873807331383}
   m_Layer: 0
   m_Name: Station Screen Off (3)
   m_TagString: Untagged
@@ -2833,3 +2905,149 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &2319620873807331383
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984087888612141558}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
+--- !u!1001 &1867773866089420149
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6823475787564201151}
+    m_Modifications:
+    - target: {fileID: 5619420646124124, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_Name
+      value: FrameDoor (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.273
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.67
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+--- !u!4 &7130788410354822429 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+  m_PrefabInstance: {fileID: 1867773866089420149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4325607243105531804
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 6823475787564201151}
+    m_Modifications:
+    - target: {fileID: 5619420646124124, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_Name
+      value: FrameDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.273
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.639
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+--- !u!4 &5123311828805750772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8871541682553714792, guid: 0001dc7f6899b3d4ebe59386fc484f69, type: 3}
+  m_PrefabInstance: {fileID: 4325607243105531804}
+  m_PrefabAsset: {fileID: 0}
