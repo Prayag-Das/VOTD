@@ -46,7 +46,7 @@ public class SanitySystem : MonoBehaviour
         if (currentSanity > insanityThreshold)
         {
             currentSanity -= sanityDecayRate * Time.deltaTime;
-            //Debug.Log($"Sanity: {currentSanity}");
+            Debug.Log($"Sanity: {currentSanity}");
 
             if (currentSanity <= insanityThreshold && !isFading)
             {
@@ -54,6 +54,13 @@ public class SanitySystem : MonoBehaviour
             }
         }
     }
+
+    public void SetDecayRate(float newRate)
+    {
+        sanityDecayRate = newRate;
+        Debug.Log($"[SanitySystem] New decay rate set to: {newRate}");
+    }
+
 
     // Called when the player interacts with a cleansing object
     public void CleanseSanity()
