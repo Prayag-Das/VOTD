@@ -160,9 +160,9 @@ public class RoomController2 : MonoBehaviour
                 else if (direction == Vector2Int.down)
                     doorRot = Quaternion.Euler(0, 180, 0);
                 else if (direction == Vector2Int.left)
-                    doorRot = Quaternion.Euler(0, 90, 0);
-                else if (direction == Vector2Int.right)
                     doorRot = Quaternion.Euler(0, -90, 0);
+                else if (direction == Vector2Int.right)
+                    doorRot = Quaternion.Euler(0, 90, 0);
 
                 GameObject door = Instantiate(doorPrefab, doorPos, doorRot);
                 spawnedDoors.Add(door);
