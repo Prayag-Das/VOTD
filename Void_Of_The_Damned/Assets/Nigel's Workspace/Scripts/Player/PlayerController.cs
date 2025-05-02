@@ -33,18 +33,22 @@ public class PlayerController : MonoBehaviour
     //--------------------------------
     // Internals
     private CharacterController controller;
+    private Animator animator;                
     private Vector3 velocity;
     private bool isGrounded;
     private bool canMove = true;
-    private Vector3 lastPosition;
+    private Vector3 lastMovePosition;
+    private Vector3 lastStepPosition;
 
     // Foot-step helpers
     private float footstepTimer = 0f;
     private bool useFirstFoot = true;   // alternates A / B
 
-    private void Start()
+    // Awake / Start
+    private void Awake()                      
     {
         controller = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();   
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -64,14 +68,29 @@ public class PlayerController : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        Vector3 direction = transform.right * moveX + transform.forward * moveZ;
+        float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
 
-        controller.Move(move * speed * Time.deltaTime);
+        // 1) Move the character
+        controller.Move(direction * moveSpeed * Time.deltaTime);
 
-        // Gravity
+        // 2) Apply gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+
+        // 3) Calculate actual horizontal speed from position delta
+        Vector3 horizontalDelta = transform.position - lastMovePosition;
+        horizontalDelta.y = 0f;
+        float actualSpeed = horizontalDelta.magnitude / Time.deltaTime;
+        lastMovePosition = transform.position;
+
+        // 4) Drive the Animator "Speed" parameter
+        if (animator != null)
+        {
+            float normalized = Mathf.InverseLerp(0f, sprintSpeed, actualSpeed);
+            animator.SetFloat("Speed", normalized, 0.1f, Time.deltaTime);
+            Debug.Log($"Normalized Speed: {normalized:F2}");
+        }
     }
 
     // Jump
@@ -95,33 +114,24 @@ public class PlayerController : MonoBehaviour
     // Foot-steps
     private void HandleFootsteps()
     {
-        // Calculate horizontal (XZ) velocity manually to ignore the gravity Y component.
-        Vector3 horizontalMove = transform.position - lastPosition;
-        horizontalMove.y = 0f;                // ignore vertical
-        float horizSpeed = horizontalMove.magnitude / Time.deltaTime;
-        lastPosition = transform.position;
+        Vector3 deltaStep = transform.position - lastStepPosition;
+        float horizSpeed = new Vector3(deltaStep.x, 0, deltaStep.z).magnitude / Time.deltaTime;
 
-        bool moving = horizSpeed > 0.1f;      // simple threshold for movement
-        bool grounded = controller.isGrounded;  // cached in HandleJump too
-
-        if (grounded && moving)
+        if (controller.isGrounded && horizSpeed > 0.1f)
         {
-            // Determine desired footstep interval based on walk vs sprint.
-            float currentSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
-            float stepInterval = baseFootstepInterval * (walkSpeed / currentSpeed);
-
             footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0f)
+            if (footstepTimer <= 0)
             {
                 PlayFootstep();
-                footstepTimer = stepInterval;
+                footstepTimer = baseFootstepInterval * (walkSpeed / (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed));
             }
         }
         else
         {
-            // Reset timer when standing still or airborne so first step isn't clipped.
-            footstepTimer = 0f;
+            footstepTimer = 0;
         }
+
+        lastStepPosition = transform.position;
     }
 
     private void PlayFootstep()
