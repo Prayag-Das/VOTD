@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     // Checks if player is able to move.
     private bool canMove = true;
+    private bool sprintAllowed = true;
 
     private void Start()
     {
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        float speed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : moveSpeed;
+        float speed = (Input.GetKey(KeyCode.LeftShift) && sprintAllowed) ? sprintSpeed : moveSpeed;
 
         controller.Move(move * speed * Time.deltaTime);
 
@@ -81,6 +82,31 @@ public class PlayerController : MonoBehaviour
             Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
             rb.AddForce(pushDirection * pushStrength, ForceMode.Impulse);
         }
+    }
+
+    public void SetSprintAllowed(bool allowed)
+    {
+        sprintAllowed = allowed;
+    }
+
+    public void SetMoveSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
+    }
+
+    public void SetSprintSpeed(float newSprintSpeed)
+    {
+        sprintSpeed = newSprintSpeed;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetSprintSpeed()
+    {
+        return sprintSpeed;
     }
 
 }

@@ -13,6 +13,14 @@ public class ObjectPickup : MonoBehaviour
     private Rigidbody heldObject;
     private Vector3 currentVelocity; // For smooth damping.
 
+    private MovementPenaltyObject penaltyScript;
+    private PlayerController player;
+
+    private void Start()
+    {
+        player = GetComponent<PlayerController>();
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(pickupKey))
@@ -53,6 +61,13 @@ public class ObjectPickup : MonoBehaviour
                 {
                     heldObject.useGravity = false;
                     heldObject.linearDamping = 10f;   // Stabilize movement.
+
+                    // Check for penalty
+                    penaltyScript = heldObject.GetComponent<MovementPenaltyObject>();
+                    if (penaltyScript != null)
+                    {
+                        penaltyScript.OnPickup(player);
+                    }
                 }
             }
         }
@@ -72,6 +87,12 @@ public class ObjectPickup : MonoBehaviour
     // Drop the object without force.
     private void DropObject()
     {
+        if (penaltyScript != null)
+        {
+            penaltyScript.OnDrop();
+            penaltyScript = null;
+        }
+
         heldObject.useGravity = true;
         heldObject.linearDamping = 1f;  // Restore default drag.
         heldObject = null;
@@ -80,6 +101,12 @@ public class ObjectPickup : MonoBehaviour
     // Throw the object with force.
     private void ThrowObject()
     {
+        if (penaltyScript != null)
+        {
+            penaltyScript.OnDrop();
+            penaltyScript = null;
+        }
+
         heldObject.useGravity = true;
         heldObject.linearDamping = 1f;  // Restore default drag.
         heldObject.AddForce(Camera.main.transform.forward * throwForce, ForceMode.Impulse);

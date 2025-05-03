@@ -64,9 +64,25 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -4157456459163486426, guid: 5f58068c429e3b84f8c7a6ee5abed96f, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -733039281678572126, guid: 5f58068c429e3b84f8c7a6ee5abed96f, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 254370798737893306, guid: 5f58068c429e3b84f8c7a6ee5abed96f, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5f58068c429e3b84f8c7a6ee5abed96f, type: 3}
       propertyPath: m_Name
       value: STuner8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1489480261555639620, guid: 5f58068c429e3b84f8c7a6ee5abed96f, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
