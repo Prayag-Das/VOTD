@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3883689941830446608}
   - component: {fileID: 646047730024917432}
   m_Layer: 0
-  m_Name: StationDoorBeta
+  m_Name: StationDoorFinal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
