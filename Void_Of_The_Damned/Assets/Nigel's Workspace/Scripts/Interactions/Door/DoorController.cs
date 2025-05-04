@@ -13,6 +13,13 @@ public class DoorController : MonoBehaviour
     [SerializeField] private float closeDelay = 3f;
     [SerializeField] private bool autoClose = true;
 
+    // SFX
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource doorSource;     // assign your slide AudioSource here
+    [SerializeField] private AudioClip slideClip;      // your “door slide” sound
+    [Tooltip("Seconds to wait after openDelay before playing slide SFX")]
+    [SerializeField] private float slideDelay = 0.1f;
+
     private Vector3 initialPosition;
     private Vector3 targetPosition;
     private bool isMoving = false;
@@ -50,6 +57,14 @@ public class DoorController : MonoBehaviour
         isMoving = true;
 
         yield return new WaitForSeconds(openDelay);
+
+        // Slide SFX
+        if (doorSource != null && slideClip != null)
+        {
+            yield return new WaitForSeconds(slideDelay);
+            doorSource.PlayOneShot(slideClip);
+        }
+
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f)
         {
