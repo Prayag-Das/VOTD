@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.0009994507, y: -1.297, z: 0}
-  m_LocalScale: {x: 1, y: 0.09, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.09, z: 0.99}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3674868945906573784}
@@ -300,7 +300,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b8e66e4f1cf2dd74199cfdf16f940eb8, type: 2}
+  - {fileID: 2100000, guid: 2201ed8fb50ad9e4ea7db4e7a3736136, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -363,6 +363,7 @@ GameObject:
   - component: {fileID: 5363461752919478725}
   - component: {fileID: 3231726609080637151}
   - component: {fileID: 4431489559011428565}
+  - component: {fileID: 784578806429598054}
   m_Layer: 0
   m_Name: Big Box (2)
   m_TagString: Untagged
@@ -440,6 +441,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &784578806429598054
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1144128784559979730}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2239997, y: 1.2239999, z: 1.2239999}
+  m_Center: {x: 0.0000076293945, y: 0, z: 0.0000028312206}
 --- !u!1 &1534259096259857913
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +473,7 @@ GameObject:
   - component: {fileID: 674283633513405233}
   - component: {fileID: 2783490585343144984}
   - component: {fileID: 4773849920995664095}
+  - component: {fileID: 7010214227308442168}
   m_Layer: 0
   m_Name: Cube Crate
   m_TagString: Untagged
@@ -528,6 +551,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &7010214227308442168
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534259096259857913}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2239999, y: 1.2239999, z: 1.224}
+  m_Center: {x: -0.0000011920929, y: 0, z: -0.000000029802322}
 --- !u!1 &1732559680419839551
 GameObject:
   m_ObjectHideFlags: 0
@@ -4926,6 +4970,7 @@ GameObject:
   - component: {fileID: 2805358271687066325}
   - component: {fileID: 5134736795591644599}
   - component: {fileID: 5724260953383309331}
+  - component: {fileID: 7549736091420476317}
   m_Layer: 0
   m_Name: Station Screen
   m_TagString: Untagged
@@ -5002,6 +5047,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7549736091420476317
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6602810841197313491}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 9201852179012960351, guid: 68e0f5565183b834fb2680c61aca7d29, type: 3}
 --- !u!1 &7910026061726533686
 GameObject:
   m_ObjectHideFlags: 0
@@ -5101,6 +5168,7 @@ GameObject:
   - component: {fileID: 1590807559750191817}
   - component: {fileID: 5005096889487762964}
   - component: {fileID: 6896146127541530016}
+  - component: {fileID: 5325555968526516382}
   m_Layer: 0
   m_Name: Cube Crate (1)
   m_TagString: Untagged
@@ -5178,6 +5246,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5325555968526516382
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7959944811151670019}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2239999, y: 1.2239999, z: 1.224}
+  m_Center: {x: 0, y: 0, z: -0.000000029802322}
 --- !u!1 &7991318184378076746
 GameObject:
   m_ObjectHideFlags: 0
@@ -5282,6 +5371,7 @@ GameObject:
   - component: {fileID: 9017741593519339354}
   - component: {fileID: 4470813452810621573}
   - component: {fileID: 649329377584107837}
+  - component: {fileID: 3664001053820463408}
   m_Layer: 0
   m_Name: Big Box (1)
   m_TagString: Untagged
@@ -5359,6 +5449,27 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3664001053820463408
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8302701120752214747}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.2240001, y: 1.2239999, z: 1.2240002}
+  m_Center: {x: 0.0000038146973, y: 0, z: -0.00000002980233}
 --- !u!1001 &2455757380517450921
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,54 +1,34 @@
 using UnityEngine;
+using System.Collections; 
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
 {
-    //--------------------------------
-    // Movement
     [Header("Movement Settings")]
-    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float sprintSpeed = 8f;
     [SerializeField] private float gravity = -9.81f;
+    //[SerializeField] private float jumpHeight = 2f; dont forget to delete this nigel
 
     [Header("Jump Settings")]
     [SerializeField] private float jumpForce = 5f;
 
     [Header("Push Settings")]
-    [SerializeField] private float pushStrength = 0.1f;   // Rigidbody push impulse
+    [SerializeField] private float pushStrength = 0.1f; // Controls how strong the push feels
 
-    // --------------------------------
-    // Audio
-    [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;      // One AudioSource is fine
-    [SerializeField] private AudioClip footstepClipA;    // First foot-step clip
-    [SerializeField] private AudioClip footstepClipB;    // Second foot-step clip
-    [SerializeField] private AudioClip jumpClip;         // Jump clip
-
-    [Tooltip("Base interval (seconds) between footsteps at walk speed")]
-    [SerializeField] private float baseFootstepInterval = 0.45f;
-
-    [Tooltip("How much the foot-step pitch can vary ± (e.g. 0.1 = ±10 %)")]
-    [SerializeField] private float pitchJitter = 0.05f;
-
-    //--------------------------------
-    // Internals
     private CharacterController controller;
-    private Animator animator;                
     private Vector3 velocity;
+
+    // Checks if player is grounded.
     private bool isGrounded;
+
+    // Checks if player is able to move.
     private bool canMove = true;
-    private Vector3 lastMovePosition;
-    private Vector3 lastStepPosition;
+    private bool sprintAllowed = true;
 
-    // Foot-step helpers
-    private float footstepTimer = 0f;
-    private bool useFirstFoot = true;   // alternates A / B
-
-    // Awake / Start
-    private void Awake()                      
+    private void Start()
     {
         controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();   
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -58,111 +38,75 @@ public class PlayerController : MonoBehaviour
 
         HandleMovement();
         HandleJump();
-        HandleFootsteps();
     }
 
-    //--------------------------------
-    // Movement
+    // PLAYER MOVEMENT
     private void HandleMovement()
     {
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
 
-        Vector3 direction = transform.right * moveX + transform.forward * moveZ;
-        float moveSpeed = Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed;
+        Vector3 move = transform.right * moveX + transform.forward * moveZ;
+        float speed = (Input.GetKey(KeyCode.LeftShift) && sprintAllowed) ? sprintSpeed : moveSpeed;
 
-        // 1) Move the character
-        controller.Move(direction * moveSpeed * Time.deltaTime);
+        controller.Move(move * speed * Time.deltaTime);
 
-        // 2) Apply gravity
+        // Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-
-        // 3) Calculate actual horizontal speed from position delta
-        Vector3 horizontalDelta = transform.position - lastMovePosition;
-        horizontalDelta.y = 0f;
-        float actualSpeed = horizontalDelta.magnitude / Time.deltaTime;
-        lastMovePosition = transform.position;
-
-        // 4) Drive the Animator "Speed" parameter
-        if (animator != null)
-        {
-            float normalized = Mathf.InverseLerp(0f, sprintSpeed, actualSpeed);
-            animator.SetFloat("Speed", normalized, 0.1f, Time.deltaTime);
-            Debug.Log($"Normalized Speed: {normalized:F2}");
-        }
     }
 
-    // Jump
+    public void SetMovementEnabled(bool enabled)
+    {
+        canMove = enabled;
+    }
+
+    // JUMP MECHANIC
     private void HandleJump()
     {
         isGrounded = controller.isGrounded;
 
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
-            velocity.y = jumpForce;
-
-            // Play jump sound
-            if (audioSource && jumpClip)
-            {
-                audioSource.pitch = 1f;
-                audioSource.PlayOneShot(jumpClip);
-            }
+            velocity.y = jumpForce; // More responsive jump with a stronger initial force
         }
     }
 
-    // Foot-steps
-    private void HandleFootsteps()
-    {
-        Vector3 deltaStep = transform.position - lastStepPosition;
-        float horizSpeed = new Vector3(deltaStep.x, 0, deltaStep.z).magnitude / Time.deltaTime;
-
-        if (controller.isGrounded && horizSpeed > 0.1f)
-        {
-            footstepTimer -= Time.deltaTime;
-            if (footstepTimer <= 0)
-            {
-                PlayFootstep();
-                footstepTimer = baseFootstepInterval * (walkSpeed / (Input.GetKey(KeyCode.LeftShift) ? sprintSpeed : walkSpeed));
-            }
-        }
-        else
-        {
-            footstepTimer = 0;
-        }
-
-        lastStepPosition = transform.position;
-    }
-
-    private void PlayFootstep()
-    {
-        if (audioSource == null) return;
-
-        // Choose clip (alternate A / B)
-        AudioClip clip = useFirstFoot ? footstepClipA : footstepClipB;
-        useFirstFoot = !useFirstFoot;
-
-        if (clip)
-        {
-            // Slight random pitch variation
-            float rand = Random.Range(1f - pitchJitter, 1f + pitchJitter);
-            audioSource.pitch = rand;
-            audioSource.PlayOneShot(clip);
-        }
-    }
-
-    // Enable / disable external movement (e.g. when menus open)
-    public void SetMovementEnabled(bool enabled) => canMove = enabled;
-
-    // Rigidbody push
+    // PUSH MECHANIC
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Rigidbody rb = hit.collider.attachedRigidbody;
 
-        if (rb)
+        if (rb != null) // Ensure the object has a Rigidbody
         {
-            Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
-            rb.AddForce(pushDir * pushStrength, ForceMode.Impulse);
+            Vector3 pushDirection = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+            rb.AddForce(pushDirection * pushStrength, ForceMode.Impulse);
         }
     }
+
+    public void SetSprintAllowed(bool allowed)
+    {
+        sprintAllowed = allowed;
+    }
+
+    public void SetMoveSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
+    }
+
+    public void SetSprintSpeed(float newSprintSpeed)
+    {
+        sprintSpeed = newSprintSpeed;
+    }
+
+    public float GetMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public float GetSprintSpeed()
+    {
+        return sprintSpeed;
+    }
+
 }

@@ -10,26 +10,22 @@ public class IntroScript : MonoBehaviour
     [SerializeField] private float fadeDuration = 1.5f;
 
     [Header("Movement Settings")]
-    [SerializeField] private float acceleration = 4f;         // Faster initial acceleration
-    [SerializeField] private float maxSpeed = 10f;            // Faster max speed
-    [SerializeField] private float decelerationMultiplier = 5f; // Much faster deceleration
-    [SerializeField] private float decelerationStartZ = -42f;
+    [SerializeField] private float moveSpeed = 0.8f;
     [SerializeField] private float stopZ = -40f;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioSource introAudioSource;    // AudioSource to play when cutscene starts
+    [SerializeField] private AudioSource introAudioSource;
 
-    private float currentSpeed = 0f;
     private bool isMoving = false;
     private bool hasStopped = false;
-    private bool hasStartedMoving = false;
     private bool isCutscenePlaying = false;
+    private bool isSkipping = false;
 
     private Vector3 initialPosition;
 
     private void Start()
     {
-        initialPosition = new Vector3(transform.position.x, transform.position.y, -90f);
+        initialPosition = new Vector3(transform.position.x, transform.position.y, -45f);
 
         if (fadeImage != null)
         {
@@ -45,30 +41,27 @@ public class IntroScript : MonoBehaviour
     {
         if (!isCutscenePlaying) return;
 
-        if (!isMoving || hasStopped) return;
-
-        float zPos = transform.position.z;
-
-        if (zPos >= decelerationStartZ)
+        if (!isSkipping && Input.GetKeyDown(KeyCode.Space))
         {
-            currentSpeed -= acceleration * decelerationMultiplier * Time.deltaTime;
-        }
-        else
-        {
-            currentSpeed += acceleration * Time.deltaTime;
+            isSkipping = true;
+            StartCoroutine(SkipCutscene());
         }
 
-        currentSpeed = Mathf.Clamp(currentSpeed, 0f, maxSpeed);
-
-        transform.position += new Vector3(0f, 0f, currentSpeed * Time.deltaTime);
-
-        if (transform.position.z >= stopZ)
+        if (isMoving && !hasStopped)
         {
-            transform.position = new Vector3(transform.position.x, transform.position.y, stopZ);
-            currentSpeed = 0f;
-            isMoving = false;
-            hasStopped = true;
-            StartCoroutine(HandleStopFadeOut());
+            transform.position += new Vector3(0f, 0f, moveSpeed * Time.deltaTime);
+
+            if (transform.position.z >= stopZ)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y, stopZ);
+                isMoving = false;
+                hasStopped = true;
+
+                if (!isSkipping)
+                {
+                    StartCoroutine(HandleStopFadeOut());
+                }
+            }
         }
     }
 
@@ -77,48 +70,32 @@ public class IntroScript : MonoBehaviour
         isCutscenePlaying = true;
         hasStopped = false;
         isMoving = false;
-        hasStartedMoving = false;
-
-        // Reset fade to full black immediately
-        if (fadeImage != null)
-        {
-            Color color = fadeImage.color;
-            color.a = 1f;
-            fadeImage.color = color;
-        }
 
         transform.position = initialPosition;
 
-        // Play audio at the beginning of the sequence
         if (introAudioSource != null)
         {
             introAudioSource.Stop();
             introAudioSource.Play();
         }
 
-        // Stay black for 1.5 seconds
         yield return new WaitForSeconds(1.5f);
-
-        // Fade in from black
         yield return StartCoroutine(FadeScreen(1f, 0f));
 
-        // Start moving
         isMoving = true;
-        hasStartedMoving = true;
     }
 
     private IEnumerator HandleStopFadeOut()
     {
-        // After stopping, wait 1.5 seconds
         yield return new WaitForSeconds(1.5f);
-
-        // Fade out to black
         yield return StartCoroutine(FadeScreen(0f, 1f));
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene("Prayag-Testing-Area");
+    }
 
-        // Short wait to ensure fade finishes
-        yield return new WaitForSeconds(0.1f);
-
-        // Load the next scene
+    private IEnumerator SkipCutscene()
+    {
+        yield return StartCoroutine(FadeScreen(fadeImage.color.a, 1f));
         SceneManager.LoadScene("Prayag-Testing-Area");
     }
 

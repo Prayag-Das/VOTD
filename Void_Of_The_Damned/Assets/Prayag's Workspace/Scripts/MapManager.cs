@@ -15,19 +15,18 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 1.5f;
 
-    [Header("Camera Settings")]
-    [SerializeField] private Camera primaryCamera;
-    [SerializeField] private Camera stationViewCamera;
+    [Header("Text or Overlay Fade")]
+    [SerializeField] private RawImage overlayImage;
 
     private bool isFading = false;
-    private bool isCutscenePlaying = false; // To prevent multiple scene loads
+    private bool isCutscenePlaying = false;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Optional
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -35,7 +34,6 @@ public class MapManager : MonoBehaviour
             return;
         }
 
-        // Start with fade fully black
         if (fadeImage != null)
         {
             Color color = fadeImage.color;
@@ -43,34 +41,19 @@ public class MapManager : MonoBehaviour
             fadeImage.color = color;
         }
 
-        // Fade in from black
-        StartCoroutine(FadeScreen(1f, 0f));
-
-        // Set primary camera active at start
-        if (primaryCamera != null && stationViewCamera != null)
+        if (overlayImage != null)
         {
-            primaryCamera.enabled = true;
-            stationViewCamera.enabled = false;
+            Color color = overlayImage.color;
+            color.a = 1f;
+            overlayImage.color = color;
         }
+
+        StartCoroutine(FadeScreen(1f, 0f));
     }
 
     void Update()
     {
-        HandleCameraSwap();
         HandleSceneReturn();
-    }
-
-    private void HandleCameraSwap()
-    {
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            if (primaryCamera != null && stationViewCamera != null)
-            {
-                bool primaryActive = primaryCamera.enabled;
-                primaryCamera.enabled = !primaryActive;
-                stationViewCamera.enabled = primaryActive;
-            }
-        }
     }
 
     private void HandleSceneReturn()
@@ -89,20 +72,36 @@ public class MapManager : MonoBehaviour
         isFading = true;
 
         float elapsed = 0f;
-        Color color = fadeImage.color;
+
+        Color fadeColor = fadeImage.color;
+        Color overlayColor = overlayImage != null ? overlayImage.color : Color.clear;
+        float overlayStartAlpha = overlayImage != null ? overlayColor.a : 0f;
 
         while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(startAlpha, endAlpha, elapsed / fadeDuration);
-            color.a = alpha;
-            fadeImage.color = color;
+            float t = elapsed / fadeDuration;
+
+            fadeColor.a = Mathf.Lerp(startAlpha, endAlpha, t);
+            fadeImage.color = fadeColor;
+
+            if (overlayImage != null && startAlpha < endAlpha)
+            {
+                overlayColor.a = Mathf.Lerp(overlayStartAlpha, 0f, t);
+                overlayImage.color = overlayColor;
+            }
+
             yield return null;
         }
 
-        // Ensure final alpha
-        color.a = endAlpha;
-        fadeImage.color = color;
+        fadeColor.a = endAlpha;
+        fadeImage.color = fadeColor;
+
+        if (overlayImage != null && startAlpha < endAlpha)
+        {
+            overlayColor.a = 0f;
+            overlayImage.color = overlayColor;
+        }
 
         isFading = false;
     }
@@ -111,14 +110,9 @@ public class MapManager : MonoBehaviour
     {
         isCutscenePlaying = true;
 
-        // Fade to black
-        yield return StartCoroutine(FadeScreen(0f, 1f));
-
-        // Short wait to ensure the fade completes
-        yield return new WaitForSeconds(0.1f);
-
-        // Load the Title Screen scene
+        // No fade — load scene immediately
         SceneManager.LoadScene("Title-Screen-Prototype");
+        yield break;
     }
 
     public void ResetGrid()
