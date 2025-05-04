@@ -1,35 +1,21 @@
 using UnityEngine;
-using System.Collections;
 
 public class PDAController : MonoBehaviour
 {
     [Header("PDA Components")]
-    [SerializeField] private GameObject pdaPanel;                // Panel to show/hide
-    [SerializeField] private PDAInventoryDisplay pdaUI;          // Script to refresh item list
+    [SerializeField] private GameObject pdaPanel;        // Panel to show/hide
+    [SerializeField] private PDAInventoryDisplay pdaUI;           // Script to refresh item list
 
     [Header("Player Controls Handler")]
     [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerCameraController cameraController;
 
     [Header("Input")]
-    [SerializeField] private KeyCode toggleKey = KeyCode.Tab;    // Now settable in Inspector
+    [SerializeField] private KeyCode toggleKey = KeyCode.Tab;
 
     [Header("Audio Settings")]
-    [SerializeField] private AudioSource clickSource;            // one-shot click SFX
-    [SerializeField] private AudioClip clickClip;              // click sound
-    [SerializeField] private AudioSource humSource;              // looping hum SFX
-    [SerializeField] private AudioClip humClip;                // hum sound (loop)
-    [SerializeField] private AudioSource backgroundMusicSource;  // the main bg music
-
-    private void Start()
-    {
-        // Prepare hum audio source but don't play yet
-        if (humSource != null && humClip != null)
-        {
-            humSource.clip = humClip;
-            humSource.loop = true;
-        }
-    }
+    [SerializeField] private AudioSource clickSource;    // one-shot click SFX
+    [SerializeField] private AudioClip clickClip;      // click sound
 
     private void Update()
     {
@@ -37,7 +23,7 @@ public class PDAController : MonoBehaviour
         {
             bool isActive = !pdaPanel.activeSelf;
 
-            // click SFX
+            // Click SFX
             if (clickSource != null && clickClip != null)
                 clickSource.PlayOneShot(clickClip);
 
@@ -49,29 +35,23 @@ public class PDAController : MonoBehaviour
             playerController.SetMovementEnabled(!isActive);
             cameraController.SetCameraLookEnabled(!isActive);
 
+            // refresh UI
             if (isActive)
                 pdaUI.RefreshUI();
 
-            // SFX; hum vs background music
-            if (isActive)
+            // hum vs background music
+            if (GameAudioManager.Instance != null)
             {
-                // Pause background music
-                if (backgroundMusicSource != null && backgroundMusicSource.isPlaying)
-                    backgroundMusicSource.Pause();
-
-                // Start hum loop
-                if (humSource != null && !humSource.isPlaying)
-                    humSource.Play();
-            }
-            else
-            {
-                // Stop hum
-                if (humSource != null && humSource.isPlaying)
-                    humSource.Stop();
-
-                // Resume background music
-                if (backgroundMusicSource != null)
-                    backgroundMusicSource.UnPause();
+                if (isActive)
+                {
+                    GameAudioManager.Instance.PauseMusic();
+                    GameAudioManager.Instance.PlayHum();
+                }
+                else
+                {
+                    GameAudioManager.Instance.StopHum();
+                    GameAudioManager.Instance.ResumeMusic();
+                }
             }
         }
     }
