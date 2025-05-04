@@ -1,19 +1,9 @@
 fileFormatVersion: 2
-guid: 87f071cc6e821174c9aff36be7c330d1
+guid: 78f6c1fc1b4c8e04da6e9e4a3cf07a84
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Practicehelmtexture112
-    second: {fileID: 2800000, guid: 6b94be7372b908c4dbe6450daadafc14, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: bodytexture1
-    second: {fileID: 2800000, guid: e48ad7879251bab4fb21a997b60e0217, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -107,7 +97,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
+  avatarSetup: 0
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   importBlendShapeDeformPercent: 1
   remapMaterialsIfMaterialImportModeIsNone: 0

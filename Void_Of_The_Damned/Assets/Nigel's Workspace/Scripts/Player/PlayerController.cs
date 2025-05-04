@@ -1,5 +1,6 @@
 using UnityEngine;
-using System.Collections; 
+using System.Collections;
+
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerController : MonoBehaviour
@@ -17,10 +18,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float pushStrength = 0.1f; // Controls how strong the push feels
 
     private CharacterController controller;
+    private Animator animator;
     private Vector3 velocity;
 
     // Checks if player is grounded.
     private bool isGrounded;
+    private bool wasGroundedLastFrame = true;
 
     // Checks if player is able to move.
     private bool canMove = true;
@@ -30,6 +33,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -51,6 +55,17 @@ public class PlayerController : MonoBehaviour
 
         controller.Move(move * speed * Time.deltaTime);
 
+        // Update Animator Parameters
+        bool isMoving = moveX != 0 || moveZ != 0;
+        animator.SetBool("startwalk", isMoving);
+        animator.SetBool("startrun", isMoving && Input.GetKey(KeyCode.LeftShift));
+
+        // Clamp downward velocity when grounded
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+
         // Gravity
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
@@ -66,10 +81,22 @@ public class PlayerController : MonoBehaviour
     {
         isGrounded = controller.isGrounded;
 
+        if (isGrounded && !wasGroundedLastFrame)
+        {
+            // Just landed
+            animator.SetBool("jump", false); // Reset jump on landing
+            animator.SetTrigger("jumpfall");
+        }
+
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             velocity.y = jumpForce; // More responsive jump with a stronger initial force
+            animator.SetTrigger("jump");
         }
+
+        wasGroundedLastFrame = isGrounded;
+
+        
     }
 
     // PUSH MECHANIC
