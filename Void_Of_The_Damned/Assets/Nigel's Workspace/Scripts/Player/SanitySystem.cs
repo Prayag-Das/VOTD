@@ -22,6 +22,9 @@ public class SanitySystem : MonoBehaviour
     private float currentSanity; // Tracks the player's sanity
     private bool isFading = false;
 
+    public float GetCurrentSanity() => currentSanity;
+    public float GetMaxSanity() => maxSanity;
+
 
     private void Start()
     {
