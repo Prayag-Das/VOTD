@@ -6301,7 +6301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   task1Requirement: {fileID: 0}
   currentTaskElement: {fileID: 1422748324652525922}
-  roomManager: {fileID: 0}
+  roomManager: {fileID: 7738987778030047427}
   openModel: {fileID: 6058732727715641785}
   closedModel: {fileID: 7173626616680603069}
 --- !u!114 &1422748324652525922

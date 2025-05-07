@@ -19,18 +19,18 @@ public class OxygenRefillStation : MonoBehaviour, IInteractable
         // Automatically find and assign the AirPipe's PuzzleElement if not set
         if (task1Requirement == null)
         {
-            AirPipe pipe = FindObjectOfType<AirPipe>();
-            if (pipe != null)
+            GameObject pipeObject = GameObject.FindGameObjectWithTag("AirPipe");
+            if (pipeObject != null)
             {
-                task1Requirement = pipe.GetComponent<PuzzleElement>();
+                task1Requirement = pipeObject.GetComponent<PuzzleElement>();
                 if (task1Requirement == null)
                 {
-                    Debug.LogWarning("AirPipe found but it has no PuzzleElement component.");
+                    Debug.LogWarning("Object with tag 'AirPipe' found but it has no PuzzleElement component.");
                 }
             }
             else
             {
-                Debug.LogWarning("No AirPipe object found in the scene.");
+                Debug.LogWarning("No object with tag 'AirPipe' found in the scene.");
             }
         }
 

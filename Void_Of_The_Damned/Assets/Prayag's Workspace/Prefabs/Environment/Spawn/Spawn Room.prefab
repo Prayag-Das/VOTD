@@ -1587,7 +1587,7 @@ GameObject:
   - component: {fileID: 8230093254188203553}
   - component: {fileID: 1047715846589515999}
   - component: {fileID: 2786023758230117338}
-  - component: {fileID: 3191448555259521251}
+  - component: {fileID: 6232600498238601799}
   m_Layer: 0
   m_Name: Spawn Room
   m_TagString: Untagged
@@ -5431,7 +5431,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!114 &3191448555259521251
+--- !u!114 &6232600498238601799
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5440,7 +5440,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2275381841892397712}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da801baca33eca04c8c356ddfa3208c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 67a322d92b036c74c96b13e6ac869e7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   roomPrefabs:
@@ -5448,6 +5448,12 @@ MonoBehaviour:
   - {fileID: 6011028098643619418, guid: b396677292ba91b4a9d1f682a24cf047, type: 3}
   - {fileID: 1732559680419839551, guid: 0323d49f8c9ec0443bbba191757386b1, type: 3}
   - {fileID: 5097673836959177411, guid: 04fb6b9bd4ceb704cb061a8ee449bab8, type: 3}
+  task3RoomPrefab: {fileID: 959287027228706300, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
+  task4RoomPrefab: {fileID: 3749226380179035455, guid: 412d7b664e30a4544b25d89263428213, type: 3}
+  task2RoomPrefab: {fileID: 7749140954796827822, guid: b9d8e0d6017f5bb43bc0c7a4e08e4645, type: 3}
+  task3TubePrefab: {fileID: 1449284019535761002, guid: f9f1fe34d2621414eb9c7a50906f5c16, type: 3}
+  task4TubePrefab: {fileID: 1449284019535761002, guid: f9f1fe34d2621414eb9c7a50906f5c16, type: 3}
+  task2TubePrefab: {fileID: 1449284019535761002, guid: f9f1fe34d2621414eb9c7a50906f5c16, type: 3}
   tubePrefabs:
   - {fileID: 2705639986972737503, guid: 9e4ab1a3f34ea924aba1aa727638e181, type: 3}
   - {fileID: 5149252323081048064, guid: 58df21aa2f1e8b241a38f8f70ecc9c01, type: 3}
@@ -5459,7 +5465,7 @@ MonoBehaviour:
   doorPrefab: {fileID: 5876844844998234780, guid: 221574b5ccc009f4b8dfd5bd6938cec2, type: 3}
   maxRooms: 18
   roomOffset: 20
-  spawnDelay: 0.02
+  spawnDelay: 0.01
 --- !u!1 &2309424645418081252
 GameObject:
   m_ObjectHideFlags: 0
