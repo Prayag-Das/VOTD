@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: f4fcf396471335940acbcf08a04b16de
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - door: {instanceID: 0}
+  - clickSource: {instanceID: 0}
+  - clickClip: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

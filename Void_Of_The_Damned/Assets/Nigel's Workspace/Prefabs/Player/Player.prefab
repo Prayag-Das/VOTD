@@ -1237,6 +1237,7 @@ GameObject:
   - component: {fileID: 1181376984251936901}
   - component: {fileID: 8296673162266855774}
   - component: {fileID: 3959716615796203403}
+  - component: {fileID: 4466490751306371645}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1350,11 +1351,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1bbd819827d66d4d9084606c34678e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  walkSpeed: 5
   sprintSpeed: 8
   gravity: -9.81
   jumpForce: 6
   pushStrength: 0.1
+  audioSource: {fileID: 0}
+  footstepClipA: {fileID: 0}
+  footstepClipB: {fileID: 0}
+  jumpClip: {fileID: 0}
+  baseFootstepInterval: 0.45
+  pitchJitter: 0.05
 --- !u!114 &6537141051833507669
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1466,6 +1473,28 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &4466490751306371645
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7762075073235115258}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 28c16ba66629807478a2ef3999adcd94, type: 3}
+  m_Controller: {fileID: 9100000, guid: 5ed8f7247503c4142bf59ae3994bcfe9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7840585962394512621
 GameObject:
   m_ObjectHideFlags: 0

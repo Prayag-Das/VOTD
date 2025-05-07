@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 4890751282713754027}
   - component: {fileID: 7416578837367444711}
   - component: {fileID: 5842151406436842344}
+  - component: {fileID: -1665101717114468596}
   m_Layer: 0
   m_Name: SignalTuner
   m_TagString: Untagged
@@ -258,33 +259,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4210907569485116021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f3c98736bd48e94aa4dc21c62c66625, type: 3}
+  m_Script: {fileID: 11500000, guid: 2787a46a4dc848c1b4b7b9307b614bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentFrequency: 0
-  frequencyStep: 10
-  minFrequency: 0
-  maxFrequency: 200
-  isInteracting: 0
-  interactionKey: 102
-  increaseKey: 101
-  decreaseKey: 113
-  frequencyText: {fileID: 7091830903723828646}
-  idlePosition: {x: -0.76, y: -0.29, z: 1.29}
-  focusPosition: {x: -0.06, y: -0.01, z: 0.81}
-  focusSmoothSpeed: 5
-  idleYRotation: -21
-  focusYRotation: 3
-  rotationSmoothSpeed: 5
-  useSmoothRotation: 1
-  tuningSource: {fileID: 4890751282713754027}
-  goodSignalSource: {fileID: 7416578837367444711}
-  sfxSource: {fileID: 5842151406436842344}
-  tuningClip: {fileID: 8300000, guid: f08722aa5a2eea544b0381692d87c613, type: 3}
-  goodSignalClip: {fileID: 8300000, guid: d0f86727649f67a4ea3f00e6e59168eb, type: 3}
-  clickClip: {fileID: 8300000, guid: ad4ab6a85a8709e42a43f0c8af6e4482, type: 3}
-  lowVolume: 0.2
-  highVolume: 0.6
+  GlowCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  m_frame: 0
 --- !u!82 &4890751282713754027
 AudioSource:
   m_ObjectHideFlags: 0
@@ -392,7 +376,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: d0f86727649f67a4ea3f00e6e59168eb, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: d0f86727649f67a4ea3f00e6e59168eb, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -489,7 +473,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ad4ab6a85a8709e42a43f0c8af6e4482, type: 3}
+  m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: ad4ab6a85a8709e42a43f0c8af6e4482, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -576,6 +560,54 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-1665101717114468596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4210907569485116021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 137a950f4d458c8468b46552d2924bb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentFrequency: 0
+  frequencyStep: 10
+  frequencyAcceleration: 20
+  maxFrequencyStep: 50
+  minFrequency: 0
+  maxFrequency: 200
+  isInteracting: 0
+  interactionKey: 102
+  increaseKey: 101
+  decreaseKey: 113
+  frequencyText: {fileID: 0}
+  idlePosition: {x: 0.3, y: -0.3, z: 0.5}
+  focusPosition: {x: 0, y: -0.1, z: 0.3}
+  focusSmoothSpeed: 5
+  idleYRotation: -21
+  focusYRotation: 3
+  rotationSmoothSpeed: 5
+  useSmoothRotation: 1
+  tuningSource: {fileID: 0}
+  sfxSource: {fileID: 0}
+  glitchSource: {fileID: 0}
+  pureSource: {fileID: 0}
+  beepSource: {fileID: 0}
+  crossfadeRange: 20
+  tuningClip: {fileID: 0}
+  clickClip: {fileID: 0}
+  glitchClip: {fileID: 0}
+  pureClip: {fileID: 0}
+  beepClip: {fileID: 0}
+  lowVolume: 0.2
+  highVolume: 0.6
+  doorBaselineVolume: 0.2
+  fullUnlockToneVolume: 1
+  beepRange: 10
+  fullBeepVolume: 0.8
+  targetUnlockFrequency: -1
 --- !u!1 &5261326884980971846
 GameObject:
   m_ObjectHideFlags: 0
