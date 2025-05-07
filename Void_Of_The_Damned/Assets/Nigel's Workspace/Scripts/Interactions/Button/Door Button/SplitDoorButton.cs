@@ -28,6 +28,7 @@ public class SplitDoorButton : InteractableButton
         base.Interact();
 
         if (splitDoor != null)
+        {
             splitDoor.ActivateDoor();
         }
         else
