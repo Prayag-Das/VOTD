@@ -230,6 +230,7 @@ MonoBehaviour:
   - {fileID: 7287538448813063793}
   - {fileID: 2759944467962346373}
   taskManager: {fileID: 0}
+  taskID: 2
 --- !u!1 &4100997693122779376
 GameObject:
   m_ObjectHideFlags: 0

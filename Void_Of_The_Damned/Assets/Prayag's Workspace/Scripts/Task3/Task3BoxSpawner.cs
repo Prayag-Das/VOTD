@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 
 public class Task3BoxSpawner : MonoBehaviour
@@ -17,12 +18,19 @@ public class Task3BoxSpawner : MonoBehaviour
 
     private bool taskCompleted = false;
 
-    private void Awake()
+    private void Start()
     {
+        StartCoroutine(SpawnBoxesAfterDelay());
+    }
+
+    private IEnumerator SpawnBoxesAfterDelay()
+    {
+        yield return new WaitForSeconds(2f);
+
         if (currentTaskElement != null && currentTaskElement.IsCompleted)
         {
             taskCompleted = true;
-            return;
+            yield break;
         }
 
         SpawnBoxes();
@@ -38,7 +46,6 @@ public class Task3BoxSpawner : MonoBehaviour
 
         List<Transform> availableSpawns = new List<Transform>(spawners);
 
-        // Shuffle the list randomly
         for (int i = 0; i < availableSpawns.Count; i++)
         {
             Transform temp = availableSpawns[i];
@@ -47,10 +54,9 @@ public class Task3BoxSpawner : MonoBehaviour
             availableSpawns[randomIndex] = temp;
         }
 
-        // Spawn each box at a unique spawn point
-        Instantiate(redBoxPrefab, availableSpawns[0].position, Quaternion.identity);
-        Instantiate(greenBoxPrefab, availableSpawns[1].position, Quaternion.identity);
-        Instantiate(blueBoxPrefab, availableSpawns[2].position, Quaternion.identity);
+        Instantiate(redBoxPrefab, availableSpawns[0].position, Quaternion.identity, transform);
+        Instantiate(greenBoxPrefab, availableSpawns[1].position, Quaternion.identity, transform);
+        Instantiate(blueBoxPrefab, availableSpawns[2].position, Quaternion.identity, transform);
 
         taskCompleted = true;
         currentTaskElement.MarkCompleted();
