@@ -121,6 +121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: StationDoorBlock
       objectReference: {fileID: 0}
+    - target: {fileID: 6835665994115696315, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
+      propertyPath: m_Volume
+      value: 0.595
+      objectReference: {fileID: 0}
     - target: {fileID: 6918238492858483987, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
       propertyPath: m_LocalScale.x
       value: 17.400007
