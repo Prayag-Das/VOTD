@@ -4,6 +4,8 @@ public class SplitDoorButton : InteractableButton
 {
     [Header("Split Door Reference")]
     [SerializeField] private SplitDoorController splitDoor;
+    public AudioSource clickSource;
+    public AudioClip clickClip;
 
     public override void Interact()
     {
@@ -15,6 +17,11 @@ public class SplitDoorButton : InteractableButton
         else
         {
             Debug.LogWarning("SplitDoorButton: No SplitDoorController assigned!");
+        }
+
+        if (clickSource != null && clickClip != null)
+        {
+            clickSource.PlayOneShot(clickClip);
         }
     }
 }

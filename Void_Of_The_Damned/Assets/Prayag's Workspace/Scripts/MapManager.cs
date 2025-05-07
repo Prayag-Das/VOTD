@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapManager : MonoBehaviour
 {
@@ -20,6 +21,12 @@ public class MapManager : MonoBehaviour
 
     private bool isFading = false;
     private bool isCutscenePlaying = false;
+
+    public bool Task3RoomSpawned { get; private set; } = false;
+    public bool Task4RoomSpawned { get; private set; } = false;
+
+    public Vector2Int? Task3Coord = null;
+    public Vector2Int? Task4Coord = null;
 
     void Awake()
     {
@@ -72,7 +79,6 @@ public class MapManager : MonoBehaviour
         isFading = true;
 
         float elapsed = 0f;
-
         Color fadeColor = fadeImage.color;
         Color overlayColor = overlayImage != null ? overlayImage.color : Color.clear;
         float overlayStartAlpha = overlayImage != null ? overlayColor.a : 0f;
@@ -109,8 +115,6 @@ public class MapManager : MonoBehaviour
     private IEnumerator FadeOutAndReturnToTitle()
     {
         isCutscenePlaying = true;
-
-        // No fade — load scene immediately
         SceneManager.LoadScene("Title-Screen-Prototype");
         yield break;
     }
@@ -118,6 +122,10 @@ public class MapManager : MonoBehaviour
     public void ResetGrid()
     {
         grid = new bool[gridSize, gridSize];
+        Task3RoomSpawned = false;
+        Task4RoomSpawned = false;
+        Task3Coord = null;
+        Task4Coord = null;
     }
 
     public bool IsCellOccupied(int x, int y)
@@ -131,7 +139,7 @@ public class MapManager : MonoBehaviour
         if (x < 0 || x >= gridSize || y < 0 || y >= gridSize) return;
         grid[x, y] = value;
     }
-
+    
     public Vector2Int[] GetAvailableNeighbors(Vector2Int coord)
     {
         Vector2Int[] directions = new Vector2Int[]
@@ -142,7 +150,7 @@ public class MapManager : MonoBehaviour
             new Vector2Int(0, -1)
         };
 
-        var available = new System.Collections.Generic.List<Vector2Int>();
+        var available = new List<Vector2Int>();
         foreach (var dir in directions)
         {
             Vector2Int neighbor = coord + dir;
@@ -150,5 +158,10 @@ public class MapManager : MonoBehaviour
                 available.Add(neighbor);
         }
         return available.ToArray();
+    }
+
+    public bool IsSpecialCoord(Vector2Int coord)
+    {
+        return Task3Coord == coord || Task4Coord == coord;
     }
 }

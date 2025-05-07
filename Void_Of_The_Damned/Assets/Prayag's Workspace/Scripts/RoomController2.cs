@@ -7,6 +7,10 @@ public class RoomController2 : MonoBehaviour
     [Header("Room Prefabs")]
     public GameObject[] roomPrefabs;
 
+    [Header("Special Rooms")]
+    public GameObject[] specialRoomPrefabs;
+    public GameObject[] specialTubePrefabs;
+
     [Header("Tube Prefabs")]
     public GameObject[] tubePrefabs;
 
@@ -88,10 +92,28 @@ public class RoomController2 : MonoBehaviour
 
     IEnumerator GenerateRooms()
     {
+        int specialIndex = 0;
+
         while (filledCoordinates.Count < maxRooms + 1)
         {
             int startIndex = filledCoordinates.Count > 1 ? 1 : 0;
-            Vector2Int baseCoord = filledCoordinates[Random.Range(startIndex, filledCoordinates.Count)];
+
+            // Exclude special room coords from baseCoord selection
+            List<Vector2Int> candidateCoords = new List<Vector2Int>();
+            for (int i = startIndex; i < filledCoordinates.Count; i++)
+            {
+                Vector2Int candidate = filledCoordinates[i];
+                if (!MapManager.Instance.IsSpecialCoord(candidate))
+                    candidateCoords.Add(candidate);
+            }
+
+            if (candidateCoords.Count == 0)
+            {
+                yield return null;
+                continue;
+            }
+
+            Vector2Int baseCoord = candidateCoords[Random.Range(0, candidateCoords.Count)];
             Vector2Int[] neighbors = MapManager.Instance.GetAvailableNeighbors(baseCoord);
 
             if (neighbors.Length == 0)
@@ -101,18 +123,45 @@ public class RoomController2 : MonoBehaviour
             }
 
             Vector2Int newCoord = neighbors[Random.Range(0, neighbors.Length)];
-
             Vector3 roomWorldPos = originPosition + new Vector3(newCoord.x * roomOffset, 0, newCoord.y * roomOffset);
 
-            GameObject randomRoomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
-            Quaternion randomRotation = Quaternion.Euler(0, GetRandom90Rotation(), 0);
+            GameObject roomPrefab;
+            Quaternion rotation;
 
-            GameObject newRoom = Instantiate(randomRoomPrefab, roomWorldPos, randomRotation);
+            bool isSpecial = ((filledCoordinates.Count + 1) % 3 == 0) && specialIndex < specialRoomPrefabs.Length;
+
+            if (isSpecial)
+            {
+                roomPrefab = specialRoomPrefabs[specialIndex];
+                rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                roomPrefab = roomPrefabs[Random.Range(0, roomPrefabs.Length)];
+                rotation = Quaternion.Euler(0, GetRandom90Rotation(), 0);
+            }
+
+            GameObject newRoom = Instantiate(roomPrefab, roomWorldPos, rotation);
             spawnedRooms.Add(newRoom);
 
             MapManager.Instance.SetCellOccupied(newCoord.x, newCoord.y, true);
             filledCoordinates.Add(newCoord);
             wallHandled[newCoord] = new bool[4];
+
+            // Register special room state
+            if (isSpecial)
+            {
+                if (!MapManager.Instance.Task3RoomSpawned)
+                {
+                    MapManager.Instance.Task3RoomSpawned = true;
+                    MapManager.Instance.Task3Coord = newCoord;
+                }
+                else if (!MapManager.Instance.Task4RoomSpawned)
+                {
+                    MapManager.Instance.Task4RoomSpawned = true;
+                    MapManager.Instance.Task4Coord = newCoord;
+                }
+            }
 
             Vector2Int tubeDir = newCoord - baseCoord;
             Vector3 tubePos = Vector3.zero;
@@ -139,39 +188,42 @@ public class RoomController2 : MonoBehaviour
                 tubeRot = Quaternion.Euler(0, -90, 0);
             }
 
-            if (tubePrefabs.Length > 0)
+            if (isSpecial && specialIndex < specialTubePrefabs.Length)
             {
-                GameObject randomTubePrefab = tubePrefabs[Random.Range(0, tubePrefabs.Length)];
-                GameObject tube = Instantiate(randomTubePrefab, tubePos, tubeRot);
+                GameObject tube = Instantiate(specialTubePrefabs[specialIndex], tubePos, tubeRot);
+                spawnedTubes.Add(tube);
+            }
+            else if (tubePrefabs.Length > 0)
+            {
+                GameObject randomTube = tubePrefabs[Random.Range(0, tubePrefabs.Length)];
+                GameObject tube = Instantiate(randomTube, tubePos, tubeRot);
                 spawnedTubes.Add(tube);
 
                 connectedRooms.Add((baseCoord, newCoord));
                 connectedRooms.Add((newCoord, baseCoord));
 
-                // 1/3 chance to spawn door at baseCoord based on direction
-            if (doorPrefab != null && Random.Range(0, 3) == 0)
-            {
-                Vector2Int direction = newCoord - baseCoord;
-                Vector3 doorPos = originPosition + new Vector3(baseCoord.x * roomOffset, 0, baseCoord.y * roomOffset);
-                Quaternion doorRot = Quaternion.identity;
+                // 1/3 chance to spawn door
+                if (doorPrefab != null && Random.Range(0, 3) == 0)
+                {
+                    Vector3 doorPos = originPosition + new Vector3(baseCoord.x * roomOffset, 0, baseCoord.y * roomOffset);
+                    Quaternion doorRot = Quaternion.identity;
 
-                if (direction == Vector2Int.up)
-                    doorRot = Quaternion.Euler(0, 0, 0);
-                else if (direction == Vector2Int.down)
-                    doorRot = Quaternion.Euler(0, 180, 0);
-                else if (direction == Vector2Int.left)
-                    doorRot = Quaternion.Euler(0, -90, 0);
-                else if (direction == Vector2Int.right)
-                    doorRot = Quaternion.Euler(0, 90, 0);
+                    if (tubeDir == Vector2Int.up) doorRot = Quaternion.Euler(0, 0, 0);
+                    else if (tubeDir == Vector2Int.down) doorRot = Quaternion.Euler(0, 180, 0);
+                    else if (tubeDir == Vector2Int.left) doorRot = Quaternion.Euler(0, -90, 0);
+                    else if (tubeDir == Vector2Int.right) doorRot = Quaternion.Euler(0, 90, 0);
 
-                GameObject door = Instantiate(doorPrefab, doorPos, doorRot);
-                spawnedDoors.Add(door);
+                    GameObject door = Instantiate(doorPrefab, doorPos, doorRot);
+                    spawnedDoors.Add(door);
+                }
             }
+
+            if (isSpecial)
+            {
+                specialIndex++; // only once per special room
             }
 
             yield return new WaitForSeconds(spawnDelay);
-
-            
         }
 
         yield return StartCoroutine(SpawnBlockers());
