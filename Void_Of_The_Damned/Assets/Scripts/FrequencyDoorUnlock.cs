@@ -30,7 +30,7 @@ public class DoorUnlock : MonoBehaviour
         // Update the unlock frequency text.
         if (unlockFrequencyText != null)
         {
-            unlockFrequencyText.text = $"Unlock Frequency: {unlockFrequency:F2}";
+            unlockFrequencyText.text = $"Unlock Freq.: {unlockFrequency:F2}";
         }
 
         // Initially set door status as locked.
@@ -89,9 +89,23 @@ public class DoorUnlock : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        playerNearby = true;
+        // Attempt initial tuner lookup
+        if (playerTuner == null)
+            playerTuner = other.GetComponentInChildren<SignalTuner>();
+
+        if (playerTuner != null)
+            playerTuner.SetGoodSignalActive(true, unlockFrequency);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // This catches the case where tuner is equipped *after* you enter
+        if (playerNearby && playerTuner == null && other.CompareTag("Player"))
         {
-            playerNearby = true;
+            playerTuner = other.GetComponentInChildren<SignalTuner>();
             if (playerTuner != null)
                 playerTuner.SetGoodSignalActive(true, unlockFrequency);
         }
@@ -99,13 +113,15 @@ public class DoorUnlock : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            playerNearby = false;
-            holdTimer = 0f;
-            if (playerTuner != null)
-                playerTuner.SetGoodSignalActive(false, -1f);
-        }
+        if (!other.CompareTag("Player")) return;
+
+        playerNearby = false;
+        holdTimer = 0f;
+        if (playerTuner != null)
+            playerTuner.SetGoodSignalActive(false, -1f);
+
+        // Optionally clear tuner reference so we’ll re-find next time
+        playerTuner = null;
     }
 
     // Unlock the door (you can add animations, disable colliders, etc.)
@@ -127,5 +143,13 @@ public class DoorUnlock : MonoBehaviour
         }
 
         // Additional Stuff : Animation, Disable Collider, etc.
+    }
+
+    /// <summary>
+    /// Exposes whether the door has been unlocked yet.
+    /// </summary>
+    public bool IsUnlocked
+    {
+        get { return unlocked; }
     }
 }
