@@ -22,11 +22,13 @@ public class MapManager : MonoBehaviour
     private bool isFading = false;
     private bool isCutscenePlaying = false;
 
-    // ✅ Task room tracking with public setters
+    // ✅ Task room tracking
     public bool Task3RoomSpawned { get; set; } = false;
     public bool Task4RoomSpawned { get; set; } = false;
+    public bool Task2RoomSpawned { get; set; } = false; // ✅ NEW
     public Vector2Int? Task3Coord { get; set; } = null;
     public Vector2Int? Task4Coord { get; set; } = null;
+    public Vector2Int? Task2Coord { get; set; } = null; // ✅ NEW
 
     void Awake()
     {
@@ -124,8 +126,10 @@ public class MapManager : MonoBehaviour
         grid = new bool[gridSize, gridSize];
         Task3RoomSpawned = false;
         Task4RoomSpawned = false;
+        Task2RoomSpawned = false; // ✅ NEW
         Task3Coord = null;
         Task4Coord = null;
+        Task2Coord = null; // ✅ NEW
     }
 
     public bool IsCellOccupied(int x, int y)
@@ -163,7 +167,8 @@ public class MapManager : MonoBehaviour
     public bool IsSpecialCoord(Vector2Int coord)
     {
         return (Task3Coord != null && Task3Coord == coord) ||
-               (Task4Coord != null && Task4Coord == coord);
+               (Task4Coord != null && Task4Coord == coord) ||
+               (Task2Coord != null && Task2Coord == coord); // ✅ NEW
     }
 
     public void MarkTask3Room(Vector2Int coord)
@@ -178,4 +183,9 @@ public class MapManager : MonoBehaviour
         Task4Coord = coord;
     }
 
+    public void MarkTask2Room(Vector2Int coord) // ✅ NEW
+    {
+        Task2RoomSpawned = true;
+        Task2Coord = coord;
+    }
 }

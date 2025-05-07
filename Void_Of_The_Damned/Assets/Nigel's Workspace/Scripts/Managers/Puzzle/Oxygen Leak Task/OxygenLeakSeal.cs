@@ -17,6 +17,12 @@ public class OxygenLeakSeal : MonoBehaviour, IInteractable
 
     private bool taskCompleted = false;
 
+    private void Start()
+    {
+        if (inventory == null)
+            inventory = FindObjectOfType<InventorySystem>();
+    }
+    
     public void Interact()
     {
         if (taskCompleted)
