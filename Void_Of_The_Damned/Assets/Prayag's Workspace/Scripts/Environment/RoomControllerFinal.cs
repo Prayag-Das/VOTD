@@ -2,16 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomController2 : MonoBehaviour
+public class RoomControllerFinal : MonoBehaviour
 {
     [Header("Room Prefabs")]
     public GameObject[] roomPrefabs;
 
     [Header("Task Rooms")]
+    public GameObject task1RoomPrefab;
+    public GameObject task2RoomPrefab;
     public GameObject task3RoomPrefab;
-    public GameObject task4RoomPrefab;
+    public GameObject task1TubePrefab;
+    public GameObject task2TubePrefab;
     public GameObject task3TubePrefab;
-    public GameObject task4TubePrefab;
 
     [Header("Tube Prefabs")]
     public GameObject[] tubePrefabs;
@@ -128,25 +130,33 @@ public class RoomController2 : MonoBehaviour
             GameObject tubePrefab = null;
             Quaternion rotation = Quaternion.identity;
 
+            bool spawnTask1 = !MapManager.Instance.Task1RoomSpawned;
+            bool spawnTask2 = !MapManager.Instance.Task2RoomSpawned;
             bool spawnTask3 = !MapManager.Instance.Task3RoomSpawned;
-            bool spawnTask4 = !MapManager.Instance.Task4RoomSpawned;
-            bool isSpecial = ((filledCoordinates.Count + 1) % 3 == 0) && (spawnTask3 || spawnTask4);
+            bool isSpecial = ((filledCoordinates.Count + 1) % 3 == 0) && (spawnTask1 || spawnTask2 || spawnTask3);
 
             if (isSpecial)
             {
-                if (spawnTask3 && (!spawnTask4 || Random.value < 0.5f))
+                if (spawnTask1)
+                {
+                    roomPrefab = task1RoomPrefab;
+                    tubePrefab = task1TubePrefab;
+                    rotation = Quaternion.Euler(0, 0, 0);
+                    MapManager.Instance.MarkTask1Room(newCoord);
+                }
+                else if (spawnTask2)
+                {
+                    roomPrefab = task2RoomPrefab;
+                    tubePrefab = task2TubePrefab;
+                    rotation = Quaternion.Euler(0, 90, 0);
+                    MapManager.Instance.MarkTask2Room(newCoord);
+                }
+                else if (spawnTask3)
                 {
                     roomPrefab = task3RoomPrefab;
                     tubePrefab = task3TubePrefab;
-                    rotation = Quaternion.Euler(180, 0, 0); // Task3 specific rotation
+                    rotation = Quaternion.Euler(180, 0, 0);
                     MapManager.Instance.MarkTask3Room(newCoord);
-                }
-                else
-                {
-                    roomPrefab = task4RoomPrefab;
-                    tubePrefab = task4TubePrefab;
-                    rotation = Quaternion.Euler(0, GetRandom90Rotation(), 0); // Task4 random y rotation
-                    MapManager.Instance.MarkTask4Room(newCoord);
                 }
             }
             else

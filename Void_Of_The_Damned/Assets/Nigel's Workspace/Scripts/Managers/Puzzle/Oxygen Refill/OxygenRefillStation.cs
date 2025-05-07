@@ -12,14 +12,29 @@ public class OxygenRefillStation : MonoBehaviour, IInteractable
     [SerializeField] private GameObject openModel;
     [SerializeField] private GameObject closedModel;
 
-    [Header("Settings")]
-    
-
     private bool taskCompleted = false;
 
     private void Start()
     {
-        // Make sure door starts open if task not done
+        // Automatically find and assign the AirPipe's PuzzleElement if not set
+        if (task1Requirement == null)
+        {
+            AirPipe pipe = FindObjectOfType<AirPipe>();
+            if (pipe != null)
+            {
+                task1Requirement = pipe.GetComponent<PuzzleElement>();
+                if (task1Requirement == null)
+                {
+                    Debug.LogWarning("AirPipe found but it has no PuzzleElement component.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No AirPipe object found in the scene.");
+            }
+        }
+
+        // Ensure proper model visibility at start
         openModel.SetActive(true);
         closedModel.SetActive(false);
     }
@@ -44,7 +59,6 @@ public class OxygenRefillStation : MonoBehaviour, IInteractable
             {
                 penalty.OnDrop(); // Ensure cleanup before destruction
             }
-
 
             Destroy(tank.gameObject);
         }
