@@ -4,6 +4,8 @@ public class SplitDoorButton : InteractableButton
 {
     [Header("Split Door Reference")]
     [SerializeField] private SplitDoorController splitDoor;
+    public AudioSource clickSource;
+    public AudioClip clickClip;
 
     // If this button also has a DoorUnlock component, we'll gate on it.
     private DoorUnlock unlockLogic;
@@ -18,7 +20,7 @@ public class SplitDoorButton : InteractableButton
         // If there is unlockLogic and it is not yet unlocked, block interaction
         if (unlockLogic != null && !unlockLogic.IsUnlocked)
         {
-            // Optional: play a “locked” SFX or flash your statusLockText red here
+            // Optional: play a ï¿½lockedï¿½ SFX or flash your statusLockText red here
             return;
         }
 
@@ -27,5 +29,15 @@ public class SplitDoorButton : InteractableButton
 
         if (splitDoor != null)
             splitDoor.ActivateDoor();
+        }
+        else
+        {
+            Debug.LogWarning("SplitDoorButton: No SplitDoorController assigned!");
+        }
+
+        if (clickSource != null && clickClip != null)
+        {
+            clickSource.PlayOneShot(clickClip);
+        }
     }
 }

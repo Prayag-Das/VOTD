@@ -9,6 +9,7 @@ TagManager:
   - -y
   - +y
   - stopper
+  - Pickup
   layers:
   - Default
   - TransparentFX

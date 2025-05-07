@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3883689941830446608}
   - component: {fileID: 646047730024917432}
   m_Layer: 0
-  m_Name: StationDoorBeta
+  m_Name: StationDoorFinal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,6 +120,14 @@ PrefabInstance:
     - target: {fileID: 700944087321243297, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
       propertyPath: m_Name
       value: StationDoorBlock
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320022946228006483, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
+      propertyPath: m_Volume
+      value: 0.493
+      objectReference: {fileID: 0}
+    - target: {fileID: 6835665994115696315, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
+      propertyPath: m_Volume
+      value: 0.595
       objectReference: {fileID: 0}
     - target: {fileID: 6918238492858483987, guid: 73d945fea0e4cc64a854b62bfa58da4f, type: 3}
       propertyPath: m_LocalScale.x
