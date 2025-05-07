@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EngineControllerRed : MonoBehaviour
+public class EngineControllerBlue : MonoBehaviour
 {
     [Header("Task Dependencies")]
     [SerializeField] private PuzzleRoomManager roomManager;
@@ -25,7 +25,7 @@ public class EngineControllerRed : MonoBehaviour
     {
         if (taskCompleted) return;
 
-        if (other.CompareTag("Task-3-red"))
+        if (other.CompareTag("Task-3-blue"))
         {
             if (currentTaskElement != null && !currentTaskElement.IsCompleted)
             {
@@ -55,7 +55,7 @@ public class EngineControllerRed : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Box prefab is not assigned in EngineControllerRed.");
+            Debug.LogWarning("Box prefab is not assigned in EngineControllerBlue.");
         }
     }
 }

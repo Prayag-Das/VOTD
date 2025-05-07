@@ -15,6 +15,9 @@ TagManager:
   - Task-3-red
   - Task-3-green
   - Task-3-blue
+  - Task-3-Station-Red
+  - Task-3-Station-Green
+  - Task-3-Station-Blue
   layers:
   - Default
   - TransparentFX
