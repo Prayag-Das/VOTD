@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equipKey: 49
-  signalTunerPrefab: {fileID: 1686222432712835408, guid: 8044695391b8347488f51063bf485663, type: 3}
+  signalTunerPrefab: {fileID: 4496130402879738216, guid: af0e3a8e4df626c45b61714a0a3b5317, type: 3}
   equipPoint: {fileID: 6011792516729954093}
   equipCollider: {fileID: 0}
 --- !u!114 &7647121090043582229
