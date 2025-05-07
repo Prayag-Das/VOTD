@@ -10,6 +10,11 @@ TagManager:
   - +y
   - stopper
   - Pickup
+  - Task-3-item-spawn
+  - spawnpoint
+  - Task-3-red
+  - Task-3-green
+  - Task-3-blue
   layers:
   - Default
   - TransparentFX

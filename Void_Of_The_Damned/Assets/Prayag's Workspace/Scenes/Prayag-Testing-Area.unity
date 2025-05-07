@@ -16063,7 +16063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2038310206
 Transform:
   m_ObjectHideFlags: 0
@@ -17768,7 +17768,7 @@ PrefabInstance:
       objectReference: {fileID: 573905474}
     - target: {fileID: 1002495391150523419, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_VersionIndex
-      value: 20069
+      value: 20690
       objectReference: {fileID: 0}
     - target: {fileID: 1356723861637020183, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_Mesh
@@ -17776,7 +17776,7 @@ PrefabInstance:
       objectReference: {fileID: 896657238}
     - target: {fileID: 1356723861637020183, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_VersionIndex
-      value: 11769
+      value: 12390
       objectReference: {fileID: 0}
     - target: {fileID: 1701279160101412130, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_Mesh
@@ -17784,7 +17784,7 @@ PrefabInstance:
       objectReference: {fileID: 283338750}
     - target: {fileID: 1701279160101412130, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_VersionIndex
-      value: 11769
+      value: 12390
       objectReference: {fileID: 0}
     - target: {fileID: 2842118006912074684, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_Mesh
@@ -17792,7 +17792,7 @@ PrefabInstance:
       objectReference: {fileID: 130450824}
     - target: {fileID: 2842118006912074684, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_VersionIndex
-      value: 20069
+      value: 20690
       objectReference: {fileID: 0}
     - target: {fileID: 3560871971953323692, guid: b53370c867295e7439ec00dcf37cef39, type: 3}
       propertyPath: m_Mesh
