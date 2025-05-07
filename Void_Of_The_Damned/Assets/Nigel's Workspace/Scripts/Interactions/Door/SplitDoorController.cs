@@ -17,6 +17,13 @@ public class SplitDoorController : MonoBehaviour
     [SerializeField] private float closeDelay = 3f;
     [SerializeField] private bool autoClose = true;
 
+    // SFX
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource doorSource;     // assign your slide AudioSource here
+    [SerializeField] private AudioClip slideClip;      // your �door slide� sound
+    [Tooltip("Seconds to wait after openDelay before playing slide SFX")]
+    [SerializeField] private float slideDelay = 0.1f;
+
     private Vector3 leftInitialPos;
     private Vector3 rightInitialPos;
     private Vector3 leftTargetPos;
@@ -53,6 +60,9 @@ public class SplitDoorController : MonoBehaviour
         isMoving = true;
 
         yield return new WaitForSeconds(openDelay);
+
+        // Slide SFX
+        if (doorSource != null && slideClip != null)
 
         while (Vector3.Distance(leftDoor.position, leftTargetPos) > 0.01f ||
                Vector3.Distance(rightDoor.position, rightTargetPos) > 0.01f)
