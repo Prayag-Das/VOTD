@@ -2099,6 +2099,10 @@ PrefabInstance:
       propertyPath: pdaPanel
       value: 
       objectReference: {fileID: 1157840910}
+    - target: {fileID: 2634498514143424489, guid: 327faa4e9fecfc94383422b9e157ab02, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.982
+      objectReference: {fileID: 0}
     - target: {fileID: 2855286588138150301, guid: 327faa4e9fecfc94383422b9e157ab02, type: 3}
       propertyPath: signalTunerPrefab
       value: 
