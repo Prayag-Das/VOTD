@@ -8,6 +8,9 @@ public class LogoScript : MonoBehaviour
     [SerializeField] private Image fadeImage;
     [SerializeField] private float fadeDuration = 1.5f;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioSource logoAudioSource; // <-- Added AudioSource
+
     private void Start()
     {
         if (fadeImage != null)
@@ -24,6 +27,13 @@ public class LogoScript : MonoBehaviour
     {
         // Stay black for 0.5 seconds first
         yield return new WaitForSeconds(0.5f);
+
+        // Play logo sound effect
+        if (logoAudioSource != null)
+        {
+            logoAudioSource.Stop();
+            logoAudioSource.Play();
+        }
 
         // Fade in from black
         yield return StartCoroutine(FadeScreen(1f, 0f));

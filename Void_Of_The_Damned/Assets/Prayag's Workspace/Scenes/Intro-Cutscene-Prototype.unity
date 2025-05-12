@@ -284,6 +284,81 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &117161266
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 117161269}
+  - component: {fileID: 117161268}
+  - component: {fileID: 117161267}
+  m_Layer: 5
+  m_Name: Black
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &117161267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117161266}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &117161268
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117161266}
+  m_CullTransparentMesh: 1
+--- !u!224 &117161269
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117161266}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6089942924786285876}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &195049504
 GameObject:
   m_ObjectHideFlags: 0
@@ -437,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8204001f947862f4cbffbb52d2740fac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeImage: {fileID: 6571662442925377704}
+  fadeImage: {fileID: 117161267}
   fadeDuration: 1.5
   moveSpeed: 0.8
   stopZ: -40
@@ -1619,6 +1694,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 195049508}
     m_Modifications:
+    - target: {fileID: 1620967249283064802, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4441126554360433583, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
       propertyPath: m_Name
       value: Intro HUD
@@ -1766,7 +1845,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 5074637228955051963, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8456874103264928227, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
+      insertIndex: 0
+      addedObject: {fileID: 117161269}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
 --- !u!224 &6089942924786285876 stripped
@@ -1774,17 +1856,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8456874103264928227, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
   m_PrefabInstance: {fileID: 3147365511251057001}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6571662442925377704 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5180430714363041240, guid: 55c15fe16ce24494c87d3e34e41fe12d, type: 3}
-  m_PrefabInstance: {fileID: 3147365511251057001}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
